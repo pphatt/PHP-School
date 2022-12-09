@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+?>
+
+<?php
 $conn = require_once("../connection/connection.php");
 session_start();
 
@@ -53,20 +57,35 @@ if (isset($_POST['product-add'])) {
 >
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-    <title>Shoes Shop</title>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+    <meta name="description" content=""/>
+
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
-
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-          rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css"/>
 
     <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css"/>
     <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css"/>
     <link rel="stylesheet" href="../assets/css/demo.css"/>
+
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <script src="../assets/js/config.js"></script>
 </head>
 
 <body>
@@ -148,17 +167,17 @@ if (isset($_POST['product-add'])) {
                 </div>
             </nav>
 
-            <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                <div class="content-wrapper">
-                    <div class="container-xxl flex-grow-1 container-p-y">
-                        <div style="margin-top: 1px; margin-bottom: 20px">
-                            <button type="button"
-                                    class="btn btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalCenter">Add Product
-                            </button>
-                        </div>
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div style="margin-top: 1px; margin-bottom: 20px">
+                        <button type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalCenter">Add Product
+                        </button>
+                    </div>
 
+                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
                         <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -260,64 +279,81 @@ if (isset($_POST['product-add'])) {
                                 </div>
                             </div>
                         </div>
+                    </form>
 
-                        <div class="card">
-                            <div class="table-responsive text-nowrap">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Product ID</th>
-                                        <th>Product Name</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-border-bottom-0">
-                                    <?php foreach ($row as $r) { ?>
-                                        <tr>
-                                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                <strong><?= $r['productID'] ?></strong></td>
-                                            <td><?= $r['productName'] ?></td>
-                                            <td>
-                                                <?= $r['productPrice'] ?>
-                                            </td>
-                                            <td><span class="badge bg-label-success me-1">On Stock</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                            data-bs-toggle="dropdown">
-                                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="">
-                                                            <i class="bx bx-edit-alt me-1"></i>Edit
-                                                        </a>
-                                                        <a class="dropdown-item" href="">
-                                                            <i class="bx bx-trash me-1"></i> Delete
-                                                        </a>
-                                                    </div>
+                    <div class="card">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                <?php for ($i = 0; $i < count($row); $i++) { ?>
+                                    <tr id="row_<?= $i ?>" onclick="a(this)">
+                                        <td>
+                                            <i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                            <strong><?= $row[$i]['productID'] ?></strong>
+                                        </td>
+
+                                        <td>
+                                            <?= $row[$i]['productName'] ?>
+                                        </td>
+
+                                        <td>
+                                            <?= $row[$i]['productPrice'] ?>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge bg-label-success me-1">On Stock</span>
+                                        </td>
+
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                        data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item"
+                                                       href="tables-basic.php?id=<?= $row[$i]['productID'] ?>">
+                                                        <i class="bx bx-edit-alt me-1"></i>Edit
+                                                    </a>
+
+                                                    <a class="dropdown-item"
+                                                       href="product-delete.php?id=<?= $row[$i]['productID'] ?>">
+                                                        <i class="bx bx-trash me-1"></i>Delete
+                                                    </a>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
-
-<!--                        <div id="a" class="alert alert-primary alert-dismissible" role="alert"-->
-<!--                             style="width: fit-content; display: none; left: 70rem; margin-top: 10px">-->
-<!--                            Add new product successfully-->
-<!--                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--                        </div>-->
                     </div>
-                    <div class="content-backdrop fade"></div>
                 </div>
-            </form>
+                <div class="content-backdrop fade"></div>
+            </div>
         </div>
     </div>
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
+
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assets/vendor/js/menu.js"></script>
+
+<script src="../assets/js/main.js"></script>
 </body>
 </html>

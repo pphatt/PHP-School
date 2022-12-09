@@ -24,6 +24,7 @@ if (isset($_POST['login'])) {
 ?>
 
 <!DOCTYPE html>
+
 <html
         lang="en"
         class="light-style customizer-hide"
@@ -39,7 +40,7 @@ if (isset($_POST['login'])) {
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login</title>
+    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content=""/>
 
@@ -134,6 +135,14 @@ if (isset($_POST['login'])) {
         </div>
     </div>
 </div>
+
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assets/vendor/js/menu.js"></script>
+
 <script src="../assets/js/main.js"></script>
 </body>
 </html>

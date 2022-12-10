@@ -1,16 +1,9 @@
 <?php
-//$conn = require_once "../../../function/getData.php";
-//$row = getQuery("select * from product order by productID desc");
-$conn = require_once("../connection/connection.php");
+$conn = require_once("../../connection/connection.php");
 session_start();
 
-try {
-    $sql = "select * from product order by productID desc";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $row = $stmt->fetchAll();
-} catch (PDOException $ex) {
-    header("");
+if (!isset($_SESSION["login"])) {
+    header("location: auth-login-basic.php");
 }
 
 ?>
@@ -32,7 +25,7 @@ try {
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Cards basic - UI elements | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title></title>
 
     <meta name="description" content=""/>
 
@@ -52,6 +45,9 @@ try {
     <link rel="stylesheet" href="../assets/css/demo.css"/>
 
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+
+    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css"/>
+
 
     <script src="../assets/vendor/js/helpers.js"></script>
 
@@ -75,39 +71,24 @@ try {
 
             <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 160px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
-                <li class="menu-item">
+                <li class="menu-item active">
                     <a href="index.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Dashboard</div>
                     </a>
                 </li>
-                <?php if ($_SESSION["login"]) { ?>
-                    <li class="menu-item active">
-                        <a href="tables-basic.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
-                            <div data-i18n="Basic">Table</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="logout.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                            <div data-i18n="Basic">Logout</div>
-                        </a>
-                    </li>
-                <?php } else { ?>
-                    <li class="menu-item active">
-                        <a href="cards-basic.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-collection"></i>
-                            <div data-i18n="Basic">Product</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="auth-login-basic.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                            <div data-i18n="Basic">Login</div>
-                        </a>
-                    </li>
-                <?php } ?>
+                <li class="menu-item">
+                    <a href="tables-basic.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-table"></i>
+                        <div data-i18n="Basic">Table</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="../../Customer/index.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                        <div data-i18n="Basic">Logout</div>
+                    </a>
+                </li>
             </ul>
         </aside>
 
@@ -131,29 +112,11 @@ try {
                 </div>
             </nav>
 
-            <div class="content-wrapper">
-                <div class="container-xxl flex-grow-1 container-p-y">
-                    <div class="row mb-5">
-                        <?php for ($i = 0; $i < count($row); $i++) { ?>
-                            <div class="col-md-6 col-lg-4 mb-3" style="width: 282.8px">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="../assets/img/elements/2.jpg" alt="Card image cap"/>
-                                    <div class="card-body">
-                                        <h5 class="card-title"
-                                            style="font-size: 20px; font-weight: bold; min-height: 44px"><?= $row[$i]['productName'] ?></h5>
-                                        <p class="card-text" style="font-size: 20px; font-weight: bold;">100$</p>
-                                        <a href="" class="btn btn-outline-primary">Detail</a>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                    </div>
-                </div>
-            </div>
+            <div class="content-wrapper"></div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-    <div class="layout-overlay layout-menu-toggle"></div>
-</div>
+</body>
 
 <script src="../assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assets/vendor/libs/popper/popper.js"></script>
@@ -162,8 +125,11 @@ try {
 
 <script src="../assets/vendor/js/menu.js"></script>
 
-<script src="../assets/vendor/libs/masonry/masonry.js"></script>
+<script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 <script src="../assets/js/main.js"></script>
+
+<script src="../assets/js/dashboards-analytics.js"></script>
+
 </body>
 </html>

@@ -1,9 +1,7 @@
 <?php
-declare(strict_types=1);
-
-function getQuery(string $q): array
+function t($q)
 {
-    $conn = require_once("../connection/connection.php");
+    $conn = require_once "connection/connection.php";
 
     try {
         $sql = $q;

@@ -1,7 +1,7 @@
 <?php
 //$conn = require_once "../../../function/getData.php";
 //$row = getQuery("select * from product order by productID desc");
-$conn = require_once("../connection/connection.php");
+$conn = require_once("../../connection/connection.php");
 session_start();
 
 if (isset($_POST['login'])) {

@@ -1,5 +1,5 @@
 <?php
-$conn = require_once("../connection/connection.php");
+$conn = require_once("../../connection/connection.php");
 
 try{
     $sql = "delete from product where productID = ?";

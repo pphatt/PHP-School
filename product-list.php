@@ -8,6 +8,8 @@ try {
 } catch (PDOException $ex) {
     echo "Error: " . $ex->getMessage();
 }
+
+
 ?>
 
 <!DOCTYPE html>

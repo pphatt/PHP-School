@@ -49,6 +49,32 @@
 //} catch (PDOException $ex) {
 //    echo "Error: " . $ex->getMessage();
 //}
+//echo "1";
+//require_once 'test2.php';
+//echo t()[0];
 
-require_once 'test2.php';
-echo t()[0];
+include "function/getData.php";
+
+$row = getQuery("select * from product");
+
+foreach ($row as $r) {
+    echo $r["productID"];
+    echo "<br>";
+    echo $r["productName"];
+    echo "<br>";
+    echo $r["productPrice"];
+    echo "<br>";
+    echo "<br>";
+}
+
+$row1 = getQuery("select * from category");
+foreach ($row1 as $r) {
+    echo $r["categoryID"];
+    echo "<br>";
+    echo $r["categoryName"];
+    echo "<br>";
+}
+
+//echo sum(1, 2);
+//echo "<br>";
+//echo sum(1, 2);

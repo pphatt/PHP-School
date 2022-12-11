@@ -3,7 +3,7 @@ $conn = require_once("../../connection/connection.php");
 session_start();
 
 if (!isset($_SESSION["login"])) {
-    header("location: auth-login-basic.php");
+    header("location: login.php");
 }
 
 ?>
@@ -78,7 +78,7 @@ if (!isset($_SESSION["login"])) {
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="tables-basic.php" class="menu-link">
+                    <a href="products.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-table"></i>
                         <div data-i18n="Basic">Table</div>
                     </a>

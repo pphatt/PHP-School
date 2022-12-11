@@ -6,7 +6,7 @@ try{
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(1, $_GET['id']);
     $stmt->execute();
-    header('Location: tables-basic.php');
+    header('Location: products.php');
 }catch(PDOException $ex) {
     echo "Error: " . $ex->getMessage();
 }

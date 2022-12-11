@@ -1,15 +1,9 @@
 <?php
-$conn = require "../connection/connection.php";
+declare(strict_types=1);
+define('__ROOT__', dirname(__FILE__, 2));
+include __ROOT__ . "/function/getData.php";
 
-try {
-    $sql = "select * from product";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $row = $stmt->fetchAll();
-} catch (PDOException $ex) {
-    echo "Error: " . $ex->getMessage();
-}
-
+$product = getQuery("select * from product");
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +78,7 @@ try {
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="../Admin/html/auth-login-basic.php"> Login </a>
+                            <a class="nav-link" href="../Admin/html/login.php"> Login </a>
                         </li>
                     </ul>
 
@@ -244,10 +238,10 @@ try {
                         </div>
 
                         <div class="detail-box">
-                            <h6><?= $row[0]["productName"] ?></h6>
+                            <h6><?= $product[0]["productName"] ?></h6>
 
                             <h6>
-                                Price:<span>$<?= $row[0]["productPrice"] ?></span>
+                                Price:<span>$<?= $product[0]["productPrice"] ?></span>
                             </h6>
                         </div>
 
@@ -259,7 +253,7 @@ try {
             </div>
 
             <?php
-            $length = count($row);
+            $length = count($product);
 
             if ($length >= 10) {
                 $length = 10;
@@ -273,9 +267,9 @@ try {
                                 <img src="images/w2.png" alt="">
                             </div>
                             <div class="detail-box">
-                                <h6><?= $row[$i]["productName"] ?></h6>
+                                <h6><?= $product[$i]["productName"] ?></h6>
                                 <h6>
-                                    Price:<span>$<?= $row[$i]["productPrice"] ?></span>
+                                    Price:<span>$<?= $product[$i]["productPrice"] ?></span>
                                 </h6>
                             </div>
 

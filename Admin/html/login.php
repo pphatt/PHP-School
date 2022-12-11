@@ -1,3 +1,28 @@
+<?php
+//$conn = require_once "../../../function/getData.php";
+//$row = getQuery("select * from product order by productID desc");
+$conn = require_once("../../connection/connection.php");
+session_start();
+
+if (isset($_POST['login'])) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $result = $conn->prepare("select * from user where email=? and password=?");
+    $result->bindParam(1, $email);
+    $result->bindParam(2, $password);
+    $result->execute();
+
+    if ($result->rowCount() > 0) {
+//        $rows = $result->fetch(PDO::FETCH_ASSOC);
+        // $_SESSION["whatever"] = "whatever"
+        $_SESSION['login'] = true;
+        $_SESSION['email'] = $email;
+        $_SESSION['password'] = $password;
+        header('location: index.php');
+    }
+}
+?>
+
 <!DOCTYPE html>
 
 <html
@@ -15,7 +40,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Register Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content=""/>
 
@@ -53,28 +78,29 @@
                             <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Shoes Shop</span>
                         </a>
                     </div>
-                    <h4 class="mb-2">Adventure starts here 🚀</h4>
-                    <p class="mb-4">Make your shopping experience easy and fun!</p>
+                    <h4 class="mb-2">Welcome to Our Shop! 👋</h4>
+                    <p class="mb-4">Please sign-in to your account and start shopping</p>
 
-                    <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                    <form id="formAuthentication" class="mb-3" action="<?php echo $_SERVER['PHP_SELF'] ?>"
+                          method="POST">
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="email" class="form-label">Email or Username</label>
                             <input
                                     type="text"
                                     class="form-control"
-                                    id="username"
-                                    name="username"
-                                    placeholder="Enter your username"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email or username"
                                     autofocus
                             />
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email"
-                                   placeholder="Enter your email"/>
-                        </div>
                         <div class="mb-3 form-password-toggle">
-                            <label class="form-label" for="password">Password</label>
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Password</label>
+                                <a href="forgot-password.php">
+                                    <small>Forgot Password?</small>
+                                </a>
+                            </div>
                             <div class="input-group input-group-merge">
                                 <input
                                         type="password"
@@ -87,23 +113,21 @@
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
-
-                        <!--                        <div class="mb-3">-->
-                        <!--                            <div class="form-check">-->
-                        <!--                                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms"/>-->
-                        <!--                                <label class="form-check-label" for="terms-conditions">-->
-                        <!--                                    I agree to-->
-                        <!--                                    <a href="javascript:void(0);">privacy policy & terms</a>-->
-                        <!--                                </label>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <button class="btn btn-primary d-grid w-100">Sign up</button>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember-me"/>
+                                <label class="form-check-label" for="remember-me"> Remember Me </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit" name="login">Sign in</button>
+                        </div>
                     </form>
 
                     <p class="text-center">
-                        <span>Already have an account?</span>
-                        <a href="auth-login-basic.php">
-                            <span>Sign in instead</span>
+                        <span>New on our platform?</span>
+                        <a href="register.php">
+                            <span>Create an account</span>
                         </a>
                     </p>
                 </div>

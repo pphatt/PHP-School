@@ -1,28 +1,15 @@
 <?php
 declare(strict_types=1);
+define('__ROOT__', dirname(__FILE__, 3));
+include __ROOT__ . "/function/getData.php";
+$conn = require_once __ROOT__ . "/connection/connection.php";
 ?>
 
 <?php
-$conn = require_once("../../connection/connection.php");
 session_start();
 
-try {
-    $sql = "select * from product";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $row = $stmt->fetchAll();
-} catch (PDOException $ex) {
-    echo "Error: " . $ex->getMessage();
-}
-
-try {
-    $sql = "select * from category";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $categoryID = $stmt->fetchAll();
-} catch (PDOException $ex) {
-    echo "Error: " . $ex->getMessage();
-}
+$product = getQuery("select * from product");
+$category = getQuery("select * from category");
 
 if (isset($_POST['product-add'])) {
     try {
@@ -36,23 +23,33 @@ if (isset($_POST['product-add'])) {
         $stmt->bindParam(6, $_POST["product-status"]);
         $stmt->bindParam(7, $_POST["product-category"]);
         $stmt->execute();
-        $_SESSION["state"] = true;
-        header('Location: tables-basic.php');
+        header('Location: products.php');
     } catch (PDOException $ex) {
         echo "Error: " . $ex->getMessage();
-        $_SESSION["state"] = false;
     }
 }
 
-if (isset($_POST["delete"])) {
-    $sql = "delete from product where productID = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1, $_GET['id']);
-    $stmt->execute();
+if (isset($_POST["edit"])) {
+    try {
+        $sql = "update product
+                set productID=?, productName=?, productPrice=?, productDetails=?, productStatus=?
+                where productID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $_POST['product-id']);
+        $stmt->bindParam(2, $_POST['product-name']);
+        $stmt->bindParam(3, $_POST['product-price']);
+        $stmt->bindParam(4, $_POST['product-detail']);
+        $stmt->bindParam(5, $_POST['product-status']);
+        $stmt->bindParam(6, $_POST['product-id']);
+        $stmt->execute();
+        header("location: products.php");
+    } catch (PDOException $ex) {
+        echo "Error: " . $ex->getMessage();
+    }
 }
 
-if (!isset($_SESSION["login"])) {
-    header("location: auth-login-basic.php");
+if ($_SESSION["login"] === null) {
+    header("location: login.php");
 }
 
 ?>
@@ -124,7 +121,7 @@ if (!isset($_SESSION["login"])) {
                     </a>
                 </li>
                 <li class="menu-item active">
-                    <a href="tables-basic.php" class="menu-link">
+                    <a href="products.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-table"></i>
                         <div data-i18n="Basic">Table</div>
                     </a>
@@ -255,7 +252,7 @@ if (!isset($_SESSION["login"])) {
                                                     <label for="defaultSelect" class="form-label">Category
                                                         <select name="product-category" id="defaultSelect"
                                                                 class="form-select">
-                                                            <?php foreach ($categoryID as $id) { ?>
+                                                            <?php foreach ($category as $id) { ?>
                                                                 <option value="<?= $id["categoryID"] ?>"><?= $id["categoryName"] ?></option>
                                                             <?php } ?>
                                                         </select>
@@ -288,23 +285,23 @@ if (!isset($_SESSION["login"])) {
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                <?php for ($i = 0; $i < count($row); $i++) { ?>
+                                <?php for ($i = 0; $i < count($product); $i++) { ?>
                                     <tr id="row_<?= $i ?>">
                                         <td>
                                             <i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                            <strong id="product-id-<?= $i ?>"><?= $row[$i]['productID'] ?></strong>
+                                            <strong id="product-id-<?= $i ?>"><?= $product[$i]['productID'] ?></strong>
                                         </td>
 
                                         <td>
-                                            <?= $row[$i]['productName'] ?>
+                                            <?= $product[$i]['productName'] ?>
                                         </td>
 
                                         <td>
-                                            <?= $row[$i]['productPrice'] ?>
+                                            <?= $product[$i]['productPrice'] ?>
                                         </td>
 
                                         <td>
-                                            <span class="badge bg-label-success me-1">On Stock</span>
+                                            <span class="badge bg-label-success me-1"><?= $product[$i]['productStatus'] ?></span>
                                         </td>
 
                                         <td>
@@ -316,12 +313,12 @@ if (!isset($_SESSION["login"])) {
 
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" data-bs-toggle="modal"
-                                                       data-bs-target="#modalCenter-<?= $i ?>">
+                                                       data-bs-target="#modalCenter-<?= $i ?>" style="cursor: pointer">
                                                         <i class="bx bx-edit-alt me-1"></i>Edit
                                                     </a>
 
                                                     <a class="dropdown-item" data-bs-toggle="modal"
-                                                       data-bs-target="#exampleModal-<?= $i ?>">
+                                                       data-bs-target="#exampleModal-<?= $i ?>" style="cursor: pointer">
                                                         <i class="bx bx-trash me-1"></i>Delete
                                                     </a>
                                                 </div>
@@ -341,7 +338,7 @@ if (!isset($_SESSION["login"])) {
                                                 </div>
 
                                                 <div class="modal-body">
-                                                    Deleting Product: <strong><?= $row[$i]["productID"] ?></strong>
+                                                    Deleting Product: <strong><?= $product[$i]["productID"] ?></strong>
                                                 </div>
 
                                                 <div class="modal-footer">
@@ -349,7 +346,7 @@ if (!isset($_SESSION["login"])) {
                                                             data-bs-dismiss="modal">Close
                                                     </button>
                                                     <a class="btn btn-primary"
-                                                       href="product-delete.php?id=<?= $row[$i]['productID'] ?>">Delete</a>
+                                                       href="product-delete.php?id=<?= $product[$i]['productID'] ?>">Delete</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -361,7 +358,7 @@ if (!isset($_SESSION["login"])) {
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalCenterTitle">Add Product</h5>
+                                                        <h5 class="modal-title" id="modalCenterTitle">Edit Product</h5>
                                                         <button type="button"
                                                                 class="btn-close"
                                                                 data-bs-dismiss="modal"
@@ -378,9 +375,9 @@ if (!isset($_SESSION["login"])) {
                                                                        class="form-control"
                                                                        placeholder="Enter Product's ID"
                                                                        name="product-id"
-                                                                       data-id="<?= $row[$i]["productID"] ?>"
+                                                                       data-id="<?= $product[$i]["productID"] ?>"
                                                                        onchange="autofill(this)"
-                                                                       value="<?= $row[$i]["productID"] ?>"
+                                                                       value="<?= $product[$i]["productID"] ?>"
                                                                 />
                                                             </div>
                                                         </div>
@@ -394,9 +391,9 @@ if (!isset($_SESSION["login"])) {
                                                                        class="form-control"
                                                                        placeholder="Enter Product's Name"
                                                                        name="product-name"
-                                                                       data-name="<?= $row[$i]["productName"] ?>"
+                                                                       data-name="<?= $product[$i]["productName"] ?>"
                                                                        onchange="autofill(this)"
-                                                                       value="<?= $row[$i]["productName"] ?>"
+                                                                       value="<?= $product[$i]["productName"] ?>"
                                                                 />
                                                             </div>
                                                         </div>
@@ -410,9 +407,9 @@ if (!isset($_SESSION["login"])) {
                                                                        class="form-control"
                                                                        placeholder="$$$"
                                                                        name="product-price"
-                                                                       data-price="<?= $row[$i]["productPrice"] ?>"
+                                                                       data-price="<?= $product[$i]["productPrice"] ?>"
                                                                        onchange="autofill(this)"
-                                                                       value="<?= $row[$i]["productPrice"] ?>"
+                                                                       value="<?= $product[$i]["productPrice"] ?>"
                                                                 />
                                                             </div>
 
@@ -424,16 +421,6 @@ if (!isset($_SESSION["login"])) {
                                                                             class="form-select">
                                                                         <option>On Stock</option>
                                                                         <option value="1">Out of Stock</option>
-<!--                                                                        --><?php
-//                                                                        $status = ["On Stock", "Out of Stock"];
-//
-//                                                                        for ($i; $i < count($status); $i++) {
-//                                                                            if ($status[$i] === $row[$i]["productStatus"]) { ?>
-<!--                                                                                <option selected>--><?php //= $status[$i] ?><!--</option>-->
-<!--                                                                            --><?php //} else { ?>
-<!--                                                                                <option>--><?php //= $status[$i] ?><!--</option>-->
-<!--                                                                            --><?php //} ?>
-<!--                                                                        --><?php //} ?>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -442,7 +429,9 @@ if (!isset($_SESSION["login"])) {
                                                                 <label for="exampleFormControlTextarea1"
                                                                        class="form-label">Product's Detail</label>
                                                                 <textarea name="product-detail" class="form-control"
-                                                                          id="exampleFormControlTextarea1"></textarea>
+                                                                          id="exampleFormControlTextarea1"
+                                                                          data-detail="<?= $product[$i]["productDetails"] ?>"
+                                                                          onchange="autofill(this)"><?= $product[$i]["productDetails"] ?></textarea>
                                                             </div>
                                                         </div>
 
@@ -462,8 +451,11 @@ if (!isset($_SESSION["login"])) {
                                                                         <select name="product-category"
                                                                                 id="defaultSelect"
                                                                                 class="form-select">
-                                                                            <?php foreach ($categoryID as $id) { ?>
-                                                                                <option value="<?= $id["categoryID"] ?>"><?= $id["categoryName"] ?></option>
+                                                                            <?php foreach ($category as $id) { ?>
+                                                                                <option value="<?= $id["categoryID"] ?>"
+                                                                                    <?php echo $id["categoryID"] === $product[$i]["categoryID"] ? "selected" : "" ?>>
+                                                                                    <?= $id["categoryName"] ?>
+                                                                                </option>
                                                                             <?php } ?>
                                                                         </select>
                                                                 </div>
@@ -475,7 +467,7 @@ if (!isset($_SESSION["login"])) {
                                                         <button type="button" class="btn btn-outline-secondary"
                                                                 data-bs-dismiss="modal">Close
                                                         </button>
-                                                        <button name="product-add" type="submit"
+                                                        <button name="edit" type="submit"
                                                                 class="btn btn-primary">Save
                                                         </button>
                                                     </div>
@@ -486,16 +478,20 @@ if (!isset($_SESSION["login"])) {
                                 <?php } ?>
                                 </tbody>
 
-                                <?php if (count($row) <= 2) { ?>
+                                <?php if (count($product) <= 2) { ?>
                                     <script>
                                         document.querySelectorAll("#action-btn").forEach(element => element.className = "dropdown dropstart")
                                     </script>
                                 <?php } ?>
 
                                 <script>
+                                    let a = ["data-id", "data-name", "data-price"]
+
                                     const autofill = (target) => {
-                                        if (target.value === "") {
-                                            target.value = target.getAttribute("data-value")
+                                        for (let i = 0; i < a.length; i++) {
+                                            if (target.value === "" && target.hasAttribute(a[i])) {
+                                                target.value = target.getAttribute(a[i])
+                                            }
                                         }
                                     }
                                 </script>

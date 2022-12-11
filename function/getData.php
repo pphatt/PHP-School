@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-function getQuery(string $q): array
+function getQuery(string $q): array|string
 {
-    $conn = require_once("../connection/connection.php");
+    define('__ROOT__', dirname(__FILE__, 2));
+    $conn = require(__ROOT__ . "/connection/connection.php");
 
     try {
-        $sql = $q;
-        $stmt = $conn->prepare($sql);
+        $stmt = $conn->prepare($q);
         $stmt->execute();
         return $stmt->fetchAll();
     } catch (PDOException $ex) {
-        echo "Error: " . $ex->getMessage();
+        return $ex->getMessage();
     }
 }

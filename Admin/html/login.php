@@ -1,7 +1,6 @@
 <?php
-//$conn = require_once "../../../function/getData.php";
-//$row = getQuery("select * from product order by productID desc");
-$conn = require_once("../../connection/connection.php");
+define('__ROOT__', dirname(__FILE__, 3));
+$conn = require_once(__ROOT__ . "/connection/connection.php");
 session_start();
 
 if (isset($_POST['login'])) {
@@ -13,12 +12,14 @@ if (isset($_POST['login'])) {
     $result->execute();
 
     if ($result->rowCount() > 0) {
-//        $rows = $result->fetch(PDO::FETCH_ASSOC);
-        // $_SESSION["whatever"] = "whatever"
         $_SESSION['login'] = true;
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
+        $_SESSION["invalid-password"] = false;
         header('location: index.php');
+    } else {
+        $_SESSION["invalid-password"] = true;
+        header('location: login.php');
     }
 }
 ?>
@@ -93,6 +94,12 @@ if (isset($_POST['login'])) {
                                     placeholder="Enter your email or username"
                                     autofocus
                             />
+
+                            <?php if ($_SESSION["invalid-password"]) { ?>
+                                <div style="padding: 0.5rem 0.5rem; margin-top: 10px" class="alert alert-danger" role="alert">
+                                    Invalid Email or Password
+                                </div>
+                            <?php } ?>
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">

@@ -64,7 +64,7 @@ $product = getQuery("select * from product");
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container ">
                 <a class="navbar-brand" href="index.php">
-                    <span>Shop Phone Case</span>
+                    <span>Phone Shop</span>
                 </a>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -82,15 +82,13 @@ $product = getQuery("select * from product");
                         </li>
                     </ul>
 
-                    <div style="width: 160px">
-
-                    </div>
+                    <div style="width: 160px"></div>
                 </div>
             </nav>
         </div>
     </header>
 
-    <section class="slider_section ">
+    <section class="slider_section" style="background-color: white; border: 4px solid black">
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -98,19 +96,11 @@ $product = getQuery("select * from product");
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="detail-box">
-                                    <h1>
-                                        Iphone 14 Pro Max Leather Case
+                                    <h1 style="color: black">
+                                        Iphone 14 Pro Max
                                     </h1>
-                                    <p>
-                                        Designed by Apple to complement iPhone 14 Pro Max, the Leather Case with MagSafe
-                                        is a delightful way to give your iPhone extra protection while adding style.
-                                        <br>
-                                        Made from specially tanned and finished leather, the outside feels soft to the
-                                        touch and develops a natural patina over time. The case quickly snaps into place
-                                        and fits snugly over your iPhone without adding bulk.
-                                    </p>
                                     <div class="btn-box">
-                                        <a href="" class="btn1">
+                                        <a href="" class="btn1" style="background-color: black">
                                             Contact Us
                                         </a>
                                     </div>
@@ -118,7 +108,7 @@ $product = getQuery("select * from product");
                             </div>
                             <div class="col-md-6">
                                 <div class="img-box">
-                                    <img src="images/slider-img.png" alt="">
+                                    <img src="../img/products/iphone-14-pro-max-purple-1.jpg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -130,15 +120,11 @@ $product = getQuery("select * from product");
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="detail-box">
-                                    <h1>
-                                        Iphone 14 Silicone Case
+                                    <h1 style="color: black">
+                                        Iphone 14 Gold
                                     </h1>
-                                    <p>
-                                        Aenean scelerisque felis ut orci condimentum laoreet. Integer nisi nisl,
-                                        convallis et augue sit amet, lobortis semper quam.
-                                    </p>
                                     <div class="btn-box">
-                                        <a href="" class="btn1">
+                                        <a href="" class="btn1" style="background-color: black">
                                             Contact Us
                                         </a>
                                     </div>
@@ -146,7 +132,7 @@ $product = getQuery("select * from product");
                             </div>
                             <div class="col-md-6">
                                 <div class="img-box">
-                                    <img src="images/slider-img.png" alt="">
+                                    <img src="../img/products/iphone-14-pro-gold.jpg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -158,15 +144,11 @@ $product = getQuery("select * from product");
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="detail-box">
-                                    <h1>
-                                        Smart Watches
+                                    <h1 style="color: black">
+                                        Iphone 14 Plus Black
                                     </h1>
-                                    <p>
-                                        Aenean scelerisque felis ut orci condimentum laoreet. Integer nisi nisl,
-                                        convallis et augue sit amet, lobortis semper quam.
-                                    </p>
                                     <div class="btn-box">
-                                        <a href="" class="btn1">
+                                        <a href="" class="btn1" style="background-color: black">
                                             Contact Us
                                         </a>
                                     </div>
@@ -174,7 +156,7 @@ $product = getQuery("select * from product");
                             </div>
                             <div class="col-md-6">
                                 <div class="img-box">
-                                    <img src="images/slider-img.png" alt="">
+                                    <img src="../img/products/iphone-14-plus-black.jpg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -186,15 +168,11 @@ $product = getQuery("select * from product");
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="detail-box">
-                                    <h1>
-                                        Smart Watches
+                                    <h1 style="color: black">
+                                        Iphone 14 Plus Purple-ish
                                     </h1>
-                                    <p>
-                                        Aenean scelerisque felis ut orci condimentum laoreet. Integer nisi nisl,
-                                        convallis et augue sit amet, lobortis semper quam.
-                                    </p>
                                     <div class="btn-box">
-                                        <a href="" class="btn1">
+                                        <a href="" class="btn1" style="background-color: black">
                                             Contact Us
                                         </a>
                                     </div>
@@ -202,7 +180,7 @@ $product = getQuery("select * from product");
                             </div>
                             <div class="col-md-6">
                                 <div class="img-box">
-                                    <img src="images/slider-img.png" alt="">
+                                    <img src="../img/products/iphone-14-plus-purple.jpg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -211,10 +189,10 @@ $product = getQuery("select * from product");
             </div>
 
             <ol class="carousel-indicators">
-                <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-                <li data-target="#customCarousel1" data-slide-to="1"></li>
-                <li data-target="#customCarousel1" data-slide-to="2"></li>
-                <li data-target="#customCarousel1" data-slide-to="3"></li>
+                <li style="background-color: black" data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+                <li style="background-color: black" data-target="#customCarousel1" data-slide-to="1"></li>
+                <li style="background-color: black" data-target="#customCarousel1" data-slide-to="2"></li>
+                <li style="background-color: black" data-target="#customCarousel1" data-slide-to="3"></li>
             </ol>
         </div>
 
@@ -225,33 +203,11 @@ $product = getQuery("select * from product");
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                Hot Sale Phone Cases
+                Hot Sale Phone
             </h2>
         </div>
 
         <div class="row">
-            <div class="col-md-6 ">
-                <div class="box">
-                    <a href="">
-                        <div class="img-box">
-                            <img src="images/w1.png" alt="">
-                        </div>
-
-                        <div class="detail-box">
-                            <h6><?= $product[0]["productName"] ?></h6>
-
-                            <h6>
-                                Price:<span>$<?= $product[0]["productPrice"] ?></span>
-                            </h6>
-                        </div>
-
-                        <div class="new">
-                            <span>Featured</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
             <?php
             $length = count($product);
 
@@ -259,17 +215,17 @@ $product = getQuery("select * from product");
                 $length = 10;
             }
 
-            for($i = 1; $i < $length; $i++) { ?>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="box">
+            for($i = 0; $i < $length; $i++) { ?>
+                <div class="col-sm-6">
+                    <div class="box" style="background-color: white; border: 4px solid black">
                         <a href="">
                             <div class="img-box">
-                                <img src="images/w2.png" alt="">
+                                <img src="../img/products/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
                             </div>
                             <div class="detail-box">
                                 <h6><?= $product[$i]["productName"] ?></h6>
                                 <h6>
-                                    Price:<span>$<?= $product[$i]["productPrice"] ?></span>
+                                    Price: <span>$<?= $product[$i]["productPrice"] ?></span>
                                 </h6>
                             </div>
 
@@ -290,232 +246,6 @@ $product = getQuery("select * from product");
     </div>
 </section>
 
-<section class="feature_section layout_padding">
-    <div class="container">
-        <div class="heading_container">
-            <h2>
-                Features Of Our Watches
-            </h2>
-            <p>
-                Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-lg-3">
-                <div class="box">
-                    <div class="img-box">
-                        <img src="images/f1.png" alt="">
-                    </div>
-                    <div class="detail-box">
-                        <h5>
-                            Fitness Tracking
-                        </h5>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        </p>
-                        <a href="">
-                <span>
-                  Read More
-                </span>
-                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="box">
-                    <div class="img-box">
-                        <img src="images/f2.png" alt="">
-                    </div>
-                    <div class="detail-box">
-                        <h5>
-                            Alerts & Notifications
-                        </h5>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        </p>
-                        <a href="">
-                <span>
-                  Read More
-                </span>
-                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="box">
-                    <div class="img-box">
-                        <img src="images/f3.png" alt="">
-                    </div>
-                    <div class="detail-box">
-                        <h5>
-                            Messages
-                        </h5>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        </p>
-                        <a href="">
-                <span>
-                  Read More
-                </span>
-                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="box">
-                    <div class="img-box">
-                        <img src="images/f4.png" alt="">
-                    </div>
-                    <div class="detail-box">
-                        <h5>
-                            Bluetooth
-                        </h5>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        </p>
-                        <a href="">
-                <span>
-                  Read More
-                </span>
-                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box">
-            <a href="">
-                View More
-            </a>
-        </div>
-    </div>
-</section>
-<!-- end feature section -->
-
-<!-- contact section -->
-<section class="contact_section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form_container">
-                    <div class="heading_container">
-                        <h2>
-                            Contact Us
-                        </h2>
-                    </div>
-                    <form action="">
-                        <div>
-                            <input type="text" placeholder="Full Name "/>
-                        </div>
-                        <div>
-                            <input type="email" placeholder="Email"/>
-                        </div>
-                        <div>
-                            <input type="text" placeholder="Phone number"/>
-                        </div>
-                        <div>
-                            <input type="text" class="message-box" placeholder="Message"/>
-                        </div>
-                        <div class="d-flex ">
-                            <button>
-                                SEND
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="img-box">
-                    <img src="images/contact-img.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="client_section layout_padding">
-    <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Testimonial
-            </h2>
-        </div>
-        <div class="carousel-wrap ">
-            <div class="owl-carousel client_owl-carousel">
-                <div class="item">
-                    <div class="box">
-                        <div class="img-box">
-                            <img src="images/c1.jpg" alt="">
-                        </div>
-                        <div class="detail-box">
-                            <div class="client_info">
-                                <div class="client_name">
-                                    <h5>
-                                        Mark Thomas
-                                    </h5>
-                                    <h6>
-                                        Customer
-                                    </h6>
-                                </div>
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut
-                                labore
-                                et
-                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                velit esse
-                                cillum
-                                dolore eu fugia
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="box">
-                        <div class="img-box">
-                            <img src="images/c2.jpg" alt="">
-                        </div>
-                        <div class="detail-box">
-                            <div class="client_info">
-                                <div class="client_name">
-                                    <h5>
-                                        Alina Hans
-                                    </h5>
-                                    <h6>
-                                        Customer
-                                    </h6>
-                                </div>
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut
-                                labore
-                                et
-                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                velit esse
-                                cillum
-                                dolore eu fugia
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- end client section -->
-
-<!-- footer section -->
 <footer class="footer_section">
     <div class="container">
         <div class="row">
@@ -596,20 +326,14 @@ $product = getQuery("select * from product");
         </div>
     </div>
 </footer>
-<!-- footer section -->
 
-<!-- jQery -->
 <script src="js/jquery-3.4.1.min.js"></script>
-<!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 </script>
-<!-- bootstrap js -->
 <script src="js/bootstrap.js"></script>
-<!-- owl slider -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
 </script>
-<!-- custom js -->
 <script src="js/custom.js"></script>
 
 </body>

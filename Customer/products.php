@@ -11,12 +11,9 @@ $product = getQuery("select * from product");
 <html lang="en">
 
 <head>
-    <!-- Basic -->
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <!-- Site Metas -->
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
@@ -24,18 +21,13 @@ $product = getQuery("select * from product");
 
     <title>Timups</title>
 
-    <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
-    <!--owl slider stylesheet -->
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
 
-    <!-- font awesome style -->
     <link href="css/font-awesome.min.css" rel="stylesheet"/>
 
-    <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet"/>
-    <!-- responsive style -->
     <link href="css/responsive.css" rel="stylesheet"/>
 
 </head>
@@ -65,60 +57,33 @@ $product = getQuery("select * from product");
                         </li>
                     </ul>
 
-                    <div style="width: 160px">
-
-                    </div>
+                    <div style="width: 160px"></div>
                 </div>
             </nav>
         </div>
     </header>
-    <!-- end header section -->
 </div>
-
-<!-- shop section -->
 
 <section class="shop_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                Hot Sale Phone Cases
+                Hot Sale Phone
             </h2>
         </div>
 
         <div class="row">
-            <div class="col-md-6 ">
-                <div class="box">
-                    <a href="">
-                        <div class="img-box">
-                            <img src="images/w1.png" alt="">
-                        </div>
-
-                        <div class="detail-box">
-                            <h6><?= $product[0]["productName"] ?></h6>
-
-                            <h6>
-                                Price:<span>$<?= $product[0]["productPrice"] ?></span>
-                            </h6>
-                        </div>
-
-                        <div class="new">
-                            <span>Featured</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <?php for($i = 1; $i < count($product); $i++) { ?>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="box">
+            <?php for($i = 0; $i < count($product); $i++) { ?>
+                <div class="col-sm-6">
+                    <div class="box" style="background-color: white; border: 4px solid black">
                         <a href="">
                             <div class="img-box">
-                                <img src="images/w2.png" alt="">
+                                <img src="../img/products/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
                             </div>
                             <div class="detail-box">
                                 <h6><?= $product[$i]["productName"] ?></h6>
                                 <h6>
-                                    Price:<span>$<?= $product[$i]["productPrice"] ?></span>
+                                    Price: <span>$<?= $product[$i]["productPrice"] ?></span>
                                 </h6>
                             </div>
 

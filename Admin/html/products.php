@@ -104,7 +104,7 @@ if (isset($_POST["edit"])) {
                                         border-radius: 0.375rem; justify-content: center; padding-right: 0;
                                         padding-left: 0;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <a href="index.php" class="app-brand-link">
-                    <span class="app-brand-text demo menu-text fw-bolder" style="text-transform: capitalize">Phone Case Shop</span>
+                    <span class="app-brand-text demo menu-text fw-bolder" style="text-transform: capitalize">Phone Shop</span>
                 </a>
             </div>
 

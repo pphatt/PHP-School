@@ -3,6 +3,7 @@ declare(strict_types=1);
 define('__ROOT__', dirname(__FILE__, 3));
 include __ROOT__ . "/function/getData.php";
 $conn = require_once __ROOT__ . "/connection/connection.php";
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 ?>
 
 <?php
@@ -14,6 +15,11 @@ if ($_SESSION["login"] === null) {
 
 $product = getQuery("select * from product");
 $category = getQuery("select * from category");
+
+/*
+ * A query that execute when add edit or delete get recorded in table log
+ * but that is not a trigger because it can get the session admin, so we have to do it in-line-ish
+ * */
 
 if (isset($_POST['product-add'])) {
     try {
@@ -27,6 +33,15 @@ if (isset($_POST['product-add'])) {
         $stmt->bindParam(6, $_POST["product-status"]);
         $stmt->bindParam(7, $_POST["product-category"]);
         $stmt->execute();
+
+        $note = "Add new product: " . $_POST['product-id'];
+        $sql = "insert into log values (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $_SESSION["email"]);
+        $stmt->bindParam(2, date('Y-m-d H:i:s'));
+        $stmt->bindParam(3, $note);
+        $stmt->execute();
+
         header('Location: products.php');
     } catch (PDOException $ex) {
         echo "Error: " . $ex->getMessage();
@@ -38,18 +53,68 @@ if (isset($_POST["edit"])) {
         $sql = "update product
                 set productID=?, productName=?, productPrice=?, productDetails=?, productStatus=?
                 where productID = ?";
+
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(1, $_POST['product-id']);
         $stmt->bindParam(2, $_POST['product-name']);
         $stmt->bindParam(3, $_POST['product-price']);
         $stmt->bindParam(4, $_POST['product-detail']);
         $stmt->bindParam(5, $_POST['product-status']);
-        $stmt->bindParam(6, $_POST['product-id']);
+        $stmt->bindParam(6, $_POST['previous-id']);
         $stmt->execute();
+
+        $note = "Edit Product ";
+        $t = [];
+
+        if ($_POST['product-id'] !== $_POST['previous-id']) {
+            $note .= $_POST['product-id'];
+            $t[] = "ID: " . $_POST['previous-id'] . " -> " . $_POST["product-id"];
+        } else {
+            $note .= $_POST['previous-id'];
+        }
+
+        if ($_POST['product-name'] !== $_POST['previous-name']) {
+            $t[] = "Name: " . $_POST['previous-name'] . " -> " . $_POST['product-name'];
+        }
+
+        if ($_POST['product-price'] !== $_POST['previous-price']) {
+            $t[] = "Price: " . $_POST['previous-price'] . " -> " . $_POST['product-price'];
+        }
+
+        if (count($t) > 0) {
+            $note .= ": ";
+        }
+
+        $note .= join(', ', $t);
+
+        $sql = "insert into log values (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $_SESSION["email"]);
+        $stmt->bindParam(2, date('Y-m-d H:i:s'));
+        $stmt->bindParam(3, $note);
+        $stmt->execute();
+
         header("location: products.php");
     } catch (PDOException $ex) {
         echo "Error: " . $ex->getMessage();
     }
+}
+
+if (isset($_POST['delete'])) {
+    $sql = "delete from product where productID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(1, $_POST['delete-id']);
+    $stmt->execute();
+
+    $note = "Delete product: " . $_POST['delete-id'];
+    $sql = "insert into log values (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(1, $_SESSION["email"]);
+    $stmt->bindParam(2, date('Y-m-d H:i:s'));
+    $stmt->bindParam(3, $note);
+    $stmt->execute();
+
+    header('Location: products.php');
 }
 
 ?>
@@ -104,7 +169,8 @@ if (isset($_POST["edit"])) {
                                         border-radius: 0.375rem; justify-content: center; padding-right: 0;
                                         padding-left: 0;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <a href="index.php" class="app-brand-link">
-                    <span class="app-brand-text demo menu-text fw-bolder" style="text-transform: capitalize">Phone Shop</span>
+                    <span class="app-brand-text demo menu-text fw-bolder"
+                          style="text-transform: capitalize">Phone Shop</span>
                 </a>
             </div>
 
@@ -115,13 +181,13 @@ if (isset($_POST["edit"])) {
                 <li class="menu-item">
                     <a href="index.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                        <div data-i18n="Analytics">Dashboard</div>
+                        <div data-i18n="Analytics">Admin Profile</div>
                     </a>
                 </li>
                 <li class="menu-item active">
                     <a href="products.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-table"></i>
-                        <div data-i18n="Basic">Table</div>
+                        <div data-i18n="Basic">Product</div>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -135,7 +201,7 @@ if (isset($_POST["edit"])) {
 
         <div class="layout-page" style="padding-left: 18.125rem">
             <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center"
-                 id="layout-navbar" style="width: fit-content; margin-right: 121px">
+                 id="layout-navbar" style="width: fit-content; margin-right: 29px">
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -188,7 +254,7 @@ if (isset($_POST["edit"])) {
             </nav>
 
             <div class="content-wrapper">
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container-xxl flex-grow-1 container-p-y" style="max-width: 100%">
                     <div style="margin-top: 1px; margin-bottom: 20px">
                         <button type="button"
                                 class="btn btn-primary"
@@ -374,8 +440,12 @@ if (isset($_POST["edit"])) {
                                                     <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close
                                                     </button>
-                                                    <a class="btn btn-primary"
-                                                       href="product-delete.php?id=<?= $product[$i]['productID'] ?>">Delete</a>
+                                                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                                                        <input type="hidden" value="<?= $product[$i]['productID'] ?>" name="delete-id" />
+                                                        <button type="submit" class="btn btn-primary" name="delete">
+                                                            Delete
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -399,6 +469,9 @@ if (isset($_POST["edit"])) {
                                                             <div class="col mb-3">
                                                                 <label for="nameWithTitle"
                                                                        class="form-label">Product's ID</label>
+                                                                <input type="hidden"
+                                                                       value="<?= $product[$i]["productID"] ?>"
+                                                                       name="previous-id"/>
                                                                 <input type="text"
                                                                        id="nameWithTitle-<?= $i ?>"
                                                                        class="form-control"
@@ -415,6 +488,9 @@ if (isset($_POST["edit"])) {
                                                             <div class="col mb-3">
                                                                 <label for="nameWithTitle"
                                                                        class="form-label">Product's Name</label>
+                                                                <input type="hidden"
+                                                                       value="<?= $product[$i]["productName"] ?>"
+                                                                       name="previous-name"/>
                                                                 <input type="text"
                                                                        id="nameWithTitle"
                                                                        class="form-control"
@@ -431,6 +507,9 @@ if (isset($_POST["edit"])) {
                                                             <div class="col mb-0">
                                                                 <label for="emailWithTitle"
                                                                        class="form-label">Product's Price</label>
+                                                                <input type="hidden"
+                                                                       value="<?= $product[$i]["productPrice"] ?>"
+                                                                       name="previous-price"/>
                                                                 <input type="number"
                                                                        id="emailWithTitle"
                                                                        class="form-control"

@@ -39,7 +39,7 @@ $product = getQuery("select * from product");
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container ">
                 <a class="navbar-brand" href="index.php">
-                    <span>Shop Phone Case</span>
+                    <span>Phone Shop</span>
                 </a>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">

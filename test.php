@@ -53,28 +53,23 @@
 //require_once 'test2.php';
 //echo t()[0];
 
-include "function/getData.php";
-
-$row = getQuery("select * from product");
-
-foreach ($row as $r) {
-    echo $r["productID"];
-    echo "<br>";
-    echo $r["productName"];
-    echo "<br>";
-    echo $r["productPrice"];
-    echo "<br>";
-    echo "<br>";
-}
-
-$row1 = getQuery("select * from category");
-foreach ($row1 as $r) {
-    echo $r["categoryID"];
-    echo "<br>";
-    echo $r["categoryName"];
-    echo "<br>";
-}
-
+//$conn = require_once("connection/connection.php");
+//
+//$result = $conn->prepare("select * from admin where email='admin111'");
+////$result->bindParam(1, 'admin111');
+//$result->execute();
+//$row = $result->fetchAll();
+//
+//echo $row;
 //echo sum(1, 2);
 //echo "<br>";
 //echo sum(1, 2);
+
+//date_default_timezone_set('Asia/Ho_Chi_Minh');
+//$date = date('Y-m-d H:i:s');
+//echo $date;
+$t = [];
+$t[] = 0;
+$t[] = 0;
+$t[] = 0;
+echo join(', ', $t);

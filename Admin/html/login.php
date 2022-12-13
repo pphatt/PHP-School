@@ -6,7 +6,7 @@ session_start();
 if (isset($_POST['login'])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $result = $conn->prepare("select * from user where email=? and password=?");
+    $result = $conn->prepare("select * from admin where email=? and password=?");
     $result->bindParam(1, $email);
     $result->bindParam(2, $password);
     $result->execute();

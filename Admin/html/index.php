@@ -1,9 +1,16 @@
 <?php
+include '../../function/getData.php';
 $conn = require_once("../../connection/connection.php");
 session_start();
+
 if ($_SESSION["login"] === null) {
     header("location: login.php");
 }
+
+$result = $conn->prepare("select * from admin where email=?");
+$result->bindParam(1, $_SESSION['email']);
+$result->execute();
+$admin_profile = $result->fetchAll();
 
 ?>
 
@@ -62,7 +69,8 @@ if ($_SESSION["login"] === null) {
                                         border-radius: 0.375rem; justify-content: center; padding-right: 0;
                                         padding-left: 0;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <a href="index.php" class="app-brand-link">
-                    <span class="app-brand-text demo menu-text fw-bolder" style="text-transform: capitalize">Phone Case Shop</span>
+                    <span class="app-brand-text demo menu-text fw-bolder"
+                          style="text-transform: capitalize">Phone Shop</span>
                 </a>
             </div>
 
@@ -73,13 +81,13 @@ if ($_SESSION["login"] === null) {
                 <li class="menu-item active">
                     <a href="index.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                        <div data-i18n="Analytics">Dashboard</div>
+                        <div data-i18n="Analytics">Admin Profile</div>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="products.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-table"></i>
-                        <div data-i18n="Basic">Table</div>
+                        <div data-i18n="Basic">Product</div>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -145,7 +153,33 @@ if ($_SESSION["login"] === null) {
                 </div>
             </nav>
 
-            <div class="content-wrapper"></div>
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="flex-shrink-0 me-3"
+                         style="display: flex;margin-bottom: 10px;margin-top: 1px;align-items: center">
+                        <img src="../../img/profile-picture-1.png" alt
+                             class="rounded-circle" style="height: 150px; width: 150px; border: 10px solid #f5f5f9"/>
+                        <div class="card" style="height: fit-content">
+                            <div class="card-body" style="display: flex; justify-content: center; align-items: center">
+                                <span style="font-size: 20px">Name: <span
+                                            style="font-weight: bold; font-size: 30px"><?= $admin_profile[0]['adminName'] ?></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="divider text-start">
+                                <div class="divider-text" style="font-size: 20px">12-12-2022</div>
+                                <div style="display: flex;align-items: center">
+                                    <h4 style="margin: 0 34px 0 25px">18:00</h4>
+                                    <div style="font-size: 1.375rem">Do Something</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>

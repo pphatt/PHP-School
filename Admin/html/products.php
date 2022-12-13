@@ -34,12 +34,14 @@ if (isset($_POST['product-add'])) {
         $stmt->bindParam(7, $_POST["product-category"]);
         $stmt->execute();
 
-        $note = "Add new product: " . $_POST['product-id'];
-        $sql = "insert into log values (?, ?, ?)";
+        $note = $_POST['product-id'];
+        $p = "1";
+        $sql = "insert into log values (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(1, $_SESSION["email"]);
         $stmt->bindParam(2, date('Y-m-d H:i:s'));
-        $stmt->bindParam(3, $note);
+        $stmt->bindParam(3, $p);
+        $stmt->bindParam(4, $note);
         $stmt->execute();
 
         header('Location: products.php');
@@ -63,36 +65,34 @@ if (isset($_POST["edit"])) {
         $stmt->bindParam(6, $_POST['previous-id']);
         $stmt->execute();
 
-        $note = "Edit Product ";
         $t = [];
 
         if ($_POST['product-id'] !== $_POST['previous-id']) {
-            $note .= $_POST['product-id'];
-            $t[] = "ID: " . $_POST['previous-id'] . " -> " . $_POST["product-id"];
+            $t[] = "ID," . $_POST['previous-id'] . "," . $_POST["product-id"];
         } else {
-            $note .= $_POST['previous-id'];
+            $t[] = "ID," . $_POST["product-id"] . "," . $_POST["product-id"];
         }
 
         if ($_POST['product-name'] !== $_POST['previous-name']) {
-            $t[] = "Name: " . $_POST['previous-name'] . " -> " . $_POST['product-name'];
+            $t[] = "Name," . $_POST['previous-name'] . "," . $_POST['product-name'];
         }
 
         if ($_POST['product-price'] !== $_POST['previous-price']) {
-            $t[] = "Price: " . $_POST['previous-price'] . " -> " . $_POST['product-price'];
+            $t[] = "Price," . $_POST['previous-price'] . "," . $_POST['product-price'];
         }
 
         if (count($t) > 0) {
-            $note .= ": ";
+            $note = join(' ', $t);
+            $p = '2';
+
+            $sql = "insert into log values (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $_SESSION["email"]);
+            $stmt->bindParam(2, date('Y-m-d H:i:s'));
+            $stmt->bindParam(3, $p);
+            $stmt->bindParam(4, $note);
+            $stmt->execute();
         }
-
-        $note .= join(', ', $t);
-
-        $sql = "insert into log values (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $_SESSION["email"]);
-        $stmt->bindParam(2, date('Y-m-d H:i:s'));
-        $stmt->bindParam(3, $note);
-        $stmt->execute();
 
         header("location: products.php");
     } catch (PDOException $ex) {
@@ -106,12 +106,15 @@ if (isset($_POST['delete'])) {
     $stmt->bindParam(1, $_POST['delete-id']);
     $stmt->execute();
 
-    $note = "Delete product: " . $_POST['delete-id'];
-    $sql = "insert into log values (?, ?, ?)";
+    $note = $_POST['delete-id'];
+    $p = '3';
+
+    $sql = "insert into log values (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(1, $_SESSION["email"]);
     $stmt->bindParam(2, date('Y-m-d H:i:s'));
-    $stmt->bindParam(3, $note);
+    $stmt->bindParam(3, $p);
+    $stmt->bindParam(4, $note);
     $stmt->execute();
 
     header('Location: products.php');

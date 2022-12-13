@@ -53,8 +53,8 @@
 //require_once 'test2.php';
 //echo t()[0];
 
-//$conn = require_once("connection/connection.php");
-//
+$conn = require_once("connection/connection.php");
+
 //$result = $conn->prepare("select * from admin where email='admin111'");
 ////$result->bindParam(1, 'admin111');
 //$result->execute();
@@ -68,8 +68,16 @@
 //date_default_timezone_set('Asia/Ho_Chi_Minh');
 //$date = date('Y-m-d H:i:s');
 //echo $date;
-$t = [];
-$t[] = 0;
-$t[] = 0;
-$t[] = 0;
-echo join(', ', $t);
+
+session_start();
+$y = "select * from log
+where timestampdiff(day, log.`current_time`, current_timestamp) = 0 and adminEmail = ?
+order by log.`current_time`";
+
+$t = 'admin111';
+
+$result = $conn->prepare($y);
+$result->bindParam(1, $t);
+$result->execute();
+$l = $result->fetchAll();
+echo explode(" ", $l[0]["current_time"])[1];

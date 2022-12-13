@@ -61,7 +61,7 @@ if (isset($_POST['update'])) {
             <!-- readonly: khong cho chinh sua gia tri-->
             <div class="mb-3 mt-3">
                 <label>Product ID:</label>
-                <input type="text" class="form-control" readonly value="<?= $row_edit['productID'] ?>" name="productID">
+                <input type="text" class="form-control" value="<?= $row_edit['productID'] ?>" name="productID">
             </div>
 
             <label>Name:</label>

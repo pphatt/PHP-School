@@ -70,14 +70,25 @@ $conn = require_once("connection/connection.php");
 //echo $date;
 
 session_start();
-$y = "select * from log
-where timestampdiff(day, log.`current_time`, current_timestamp) = 0 and adminEmail = ?
-order by log.`current_time`";
+//$y = "select * from log
+//where timestampdiff(day, log.`current_time`, current_timestamp) = 0 and adminEmail = ?
+//order by log.`current_time`";
+//
+//$t = 'admin111';
+//
+//$result = $conn->prepare($y);
+//$result->bindParam(1, $t);
+//$result->execute();
+//$l = $result->fetchAll();
+//echo explode(" ", $l[0]["current_time"])[1];
 
-$t = 'admin111';
+include_once 'function/getData.php';
 
-$result = $conn->prepare($y);
-$result->bindParam(1, $t);
-$result->execute();
-$l = $result->fetchAll();
-echo explode(" ", $l[0]["current_time"])[1];
+$q = getQuery("
+                                  select distinct cast(`current_time` as date) as d, timestampdiff(day, `current_time`, current_timestamp) as diff from log
+                                  where timestampdiff(day, `current_time`, current_timestamp) <= 30");
+
+echo $q[0]["diff"];
+
+$j = 0;
+echo $j + 1;

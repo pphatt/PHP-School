@@ -182,7 +182,7 @@ if (isset($_POST['delete'])) {
             <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 160px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item">
-                    <a href="index.php" class="menu-link">
+                    <a href="index.php?page=1&dd=0" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Admin Profile</div>
                     </a>

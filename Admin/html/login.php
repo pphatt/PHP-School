@@ -16,7 +16,7 @@ if (isset($_POST['login'])) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
         $_SESSION["invalid-password"] = false;
-        header('location: index.php');
+        header('location: index.php?page=1&dd=0');
     } else {
         $_SESSION["invalid-password"] = true;
         header('location: login.php');

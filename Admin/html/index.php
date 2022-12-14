@@ -169,120 +169,134 @@ $admin_profile = $result->fetchAll();
 
                     <div class="card mb-4">
                         <div class="card-body" style="padding-top: 0;padding-bottom: 0">
-                            <div class="divider text-start">
-                                <div class="divider-text"
-                                     style="font-size: 20px">
-                                    <?php $x = $_GET['dd'] ?>
-                                    <strong><?= date('d.m.Y', strtotime("$x days")) ?></strong>
+                            <?php
+                            $y = "select * from log
+                                  where datediff(`current_time`, current_date) = ? and adminEmail = ?
+                                  order by log.`current_time`";
+
+                            $result = $conn->prepare($y);
+                            $result->bindParam(1, $_GET['dd']);
+                            $result->bindParam(2, $_SESSION['email']);
+                            $result->execute();
+                            $log = $result->fetchAll();
+
+                            if (count($log) === 0) { ?>
+                                <div class="card-text"
+                                     style="text-align: center; font-size: 24px; margin: 10px 0 10px 0">
+                                    There was no record yet
                                 </div>
-                                <?php
-                                $y = "select * from log
-                                        where datediff(`current_time`, current_date) = ? and adminEmail = ?
-                                          order by log.`current_time`";
-
-                                $result = $conn->prepare($y);
-                                $result->bindParam(1, $_GET['dd']);
-                                $result->bindParam(2, $_SESSION['email']);
-                                $result->execute();
-                                $log = $result->fetchAll();
-
-                                for ($i = 0; $i < count($log); $i++) { ?>
-                                    <div style="display: flex;gap: 24px">
-                                        <h4 style="font-size: 20px; margin: 7px 0 0 6px;width: 90px">
-                                            <strong><?= explode(" ", $log[$i]["current_time"])[1] ?></strong>
-                                        </h4>
-                                        <?php if ($log[$i]["logTypes"] === 1) { ?>
-                                            <span class="badge bg-label-success"
-                                                  style="margin: 7px 19px 0 0; height: fit-content">Add</span>
-                                            <div style="font-size: 1.375rem">New
-                                                Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
-                                        <?php } else if ($log[$i]["logTypes"] === 2) { ?>
-                                            <span class="badge bg-label-warning"
-                                                  style="margin: 7px 19px 0 0; height: fit-content">Edit</span>
-                                            <?php
-                                            $p = explode(" ", $log[$i]["log_note"]);
-                                            $id = explode(",", $p[0])[2];
-                                            ?>
-                                            <div style="font-size: 1.375rem">Edit Product
-                                                <strong>(<?= $id ?>)</strong>
-                                                <?php
-                                                $a = explode(",", $p[0]);
-
-                                                if ($a[1] === $a[2]) {
-                                                    $k = 1;
-                                                } else {
-                                                    $k = 0;
-                                                } ?>
-                                                <?php for (; $k < count($p); $k++) {
-                                                    $w = explode(",", $p[$k]);
-                                                    if (str_contains($w[1], '-')) {
-                                                        $w[1] = str_replace("-", " ", $w[1]);
-                                                    }
-                                                    if (str_contains($w[2], '-')) {
-                                                        $w[2] = str_replace("-", " ", $w[2]);
-                                                    } ?>
-                                                    <div style='display: flex;align-items: center;gap: 5px'>
-                                                        <strong style='width: 68px'><?= $w[0] ?>:</strong>
-                                                        <span style='color: black'>+</span>
-                                                        <span style='background-color: #ddf4d2'><?= $w[1] ?></span>
-                                                    </div>
-                                                    <div style='display: flex;align-items: center;gap: 6px;margin-left: 72px'>
-                                                        <span style='color: black; font-size: 32px'>-</span>
-                                                        <span style='background-color: #ffb0a3'><?= $w[2] ?></span>
-                                                    </div>
-                                                <?php } ?>
-                                            </div>
-                                        <?php } else { ?>
-                                            <span class="badge bg-label-danger"
-                                                  style="height: fit-content;margin-top: 7px">Delete</span>
-                                            <div style="font-size: 1.375rem">Delete
-                                                Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
-                                        <?php } ?>
+                            <?php } else { ?>
+                                <div class="divider text-start">
+                                    <div class="divider-text"
+                                         style="font-size: 20px">
+                                        <?php $x = $_GET['dd'] ?>
+                                        <strong><?= date('d.m.Y', strtotime("$x days")) ?></strong>
                                     </div>
-                                <?php } ?>
-                            </div>
+                                    <?php
+                                    for ($i = 0; $i < count($log); $i++) { ?>
+                                        <div style="display: flex;gap: 24px">
+                                            <h4 style="font-size: 20px; margin: 7px 0 0 6px;width: 90px">
+                                                <strong><?= explode(" ", $log[$i]["current_time"])[1] ?></strong>
+                                            </h4>
+                                            <?php if ($log[$i]["logTypes"] === 1) { ?>
+                                                <span class="badge bg-label-success"
+                                                      style="margin: 7px 19px 0 0; height: fit-content">Add</span>
+                                                <div style="font-size: 1.375rem">New
+                                                    Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
+                                            <?php } else if ($log[$i]["logTypes"] === 2) { ?>
+                                                <span class="badge bg-label-warning"
+                                                      style="margin: 7px 19px 0 0; height: fit-content">Edit</span>
+                                                <?php
+                                                $p = explode(" ", $log[$i]["log_note"]);
+                                                $id = explode(",", $p[0])[2];
+                                                ?>
+                                                <div style="font-size: 1.375rem">Edit Product
+                                                    <strong>(<?= $id ?>)</strong>
+                                                    <?php
+                                                    $a = explode(",", $p[0]);
+
+                                                    if ($a[1] === $a[2]) {
+                                                        $k = 1;
+                                                    } else {
+                                                        $k = 0;
+                                                    } ?>
+                                                    <?php for (; $k < count($p); $k++) {
+                                                        $w = explode(",", $p[$k]);
+                                                        if (str_contains($w[1], '-')) {
+                                                            $w[1] = str_replace("-", " ", $w[1]);
+                                                        }
+                                                        if (str_contains($w[2], '-')) {
+                                                            $w[2] = str_replace("-", " ", $w[2]);
+                                                        } ?>
+                                                        <div style='display: flex;align-items: center;gap: 5px'>
+                                                            <strong style='width: 68px'><?= $w[0] ?>:</strong>
+                                                            <span style='color: black'>+</span>
+                                                            <span style='background-color: #ddf4d2'><?= $w[2] ?></span>
+                                                        </div>
+                                                        <div style='display: flex;align-items: center;gap: 6px;margin-left: 72px'>
+                                                            <span style='color: black; font-size: 32px'>-</span>
+                                                            <span style='background-color: #ffb0a3'><?= $w[1] ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            <?php } else { ?>
+                                                <span class="badge bg-label-danger"
+                                                      style="height: fit-content;margin-top: 7px">Delete</span>
+                                                <div style="font-size: 1.375rem">Delete
+                                                    Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
 
                     <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <?php
-                            $q = getQuery("
+                        <?php
+                        if (count($log) === 0) { ?>
+
+                        <?php } else { ?>
+                            <ul class="pagination justify-content-center">
+                                <?php
+                                $q = getQuery("
                                   select distinct cast(`current_time` as date) as d, datediff(`current_time`, current_date) as diff from log
                                   where datediff(`current_time`, current_date) >= -30
                                   order by d desc");
-                            ?>
-                            <li class="page-item prev">
-                                <?php
-                                $previous = "index.php?page=";
-                                if ($_GET["page"] === "1") {
-                                    $previous .= count($q) . "&dd=" . $q[count($q) - 1]['diff'];
-                                } else {
-                                    $previous .= $_GET["page"] - 1 . "&dd=" . $q[$_GET["page"] - 2]['diff'];
-                                }
                                 ?>
-                                <a class="page-link" href="<?= $previous ?>"><i class="tf-icon bx bx-chevrons-left"></i></a>
-                            </li>
-                            <?php
-                            for ($i = 0; $i < count($q); $i++) { ?>
-                                <li class="page-item <?php echo $_GET['page'] === strval($i + 1) ? 'active' : '' ?>">
-                                    <a class="page-link"
-                                       href="index.php?page=<?= $i + 1 ?>&dd=<?= $q[$i]['diff'] ?>"><?= $i + 1 ?></a>
+                                <li class="page-item prev">
+                                    <?php
+                                    $previous = "index.php?page=";
+                                    if ($_GET["page"] === "1") {
+                                        $previous .= count($q) . "&dd=" . $q[count($q) - 1]['diff'];
+                                    } else {
+                                        $previous .= $_GET["page"] - 1 . "&dd=" . $q[$_GET["page"] - 2]['diff'];
+                                    }
+                                    ?>
+                                    <a class="page-link" href="<?= $previous ?>"><i
+                                                class="tf-icon bx bx-chevrons-left"></i></a>
                                 </li>
-                            <?php } ?>
-                            <li class="page-item next">
                                 <?php
-                                $next = "index.php?page=";
-                                if ($_GET["page"] === strval(count($q))) {
-                                    $next .= 1 . "&dd=" . $q[0]['diff'];
-                                } else {
-                                    $next .= $_GET["page"] + 1 . "&dd=" . $q[$_GET["page"]]['diff'];
-                                }
-                                ?>
-                                <a class="page-link" href="<?= $next ?>"><i
-                                            class="tf-icon bx bx-chevrons-right"></i></a>
-                            </li>
-                        </ul>
+                                for ($i = 0; $i < count($q); $i++) { ?>
+                                    <li class="page-item <?php echo $_GET['page'] === strval($i + 1) ? 'active' : '' ?>">
+                                        <a class="page-link"
+                                           href="index.php?page=<?= $i + 1 ?>&dd=<?= $q[$i]['diff'] ?>"><?= $i + 1 ?></a>
+                                    </li>
+                                <?php } ?>
+                                <li class="page-item next">
+                                    <?php
+                                    $next = "index.php?page=";
+                                    if ($_GET["page"] === strval(count($q))) {
+                                        $next .= 1 . "&dd=" . $q[0]['diff'];
+                                    } else {
+                                        $next .= $_GET["page"] + 1 . "&dd=" . $q[$_GET["page"]]['diff'];
+                                    }
+                                    ?>
+                                    <a class="page-link" href="<?= $next ?>"><i
+                                                class="tf-icon bx bx-chevrons-right"></i></a>
+                                </li>
+                            </ul>
+                        <?php } ?>
                     </nav>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 define('__ROOT__', dirname(__FILE__, 3));
 $conn = require_once(__ROOT__ . "/connection/connection.php");
+include __ROOT__ . "/function/getData.php";
 session_start();
 
 if (isset($_POST['login'])) {
@@ -16,7 +18,12 @@ if (isset($_POST['login'])) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
         $_SESSION["invalid-password"] = false;
-        header('location: index.php?page=1&dd=0');
+
+        $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`current_time`, current_date) as diff from log
+                  where datediff(`current_time`, current_date) >= -30
+                  order by d desc");
+
+        header("location: index.php?page=1&dd=". $q[0]['diff']);
     } else {
         $_SESSION["invalid-password"] = true;
         header('location: login.php');

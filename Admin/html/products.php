@@ -96,6 +96,25 @@ if (isset($_POST["edit"])) {
             $t[] = "Price," . $_POST['previous-price'] . "," . $_POST['product-price'];
         }
 
+        if ($_POST['product-detail'] !== $_POST['previous-detail']) {
+            $j = explode(" ", $_POST['previous-detail']);
+            $k = explode(" ", $_POST['product-detail']);
+
+            if (count($j) > 1) {
+                $j = join("-", $j);
+            } else {
+                $j = $_POST['previous-detail'];
+            }
+
+            if (count($k) > 1) {
+                $k = join("-", $k);
+            } else {
+                $k = $_POST['product-detail'];
+            }
+
+            $t[] = "Detail," . $j . "," . $k;
+        }
+
         if (count($t) > 0) {
             $note = join(' ', $t);
             $p = '2';
@@ -559,6 +578,9 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                             <div class="mb-3">
                                                                 <label for="exampleFormControlTextarea1"
                                                                        class="form-label">Product's Detail</label>
+                                                                <textarea name="previous-detail" class="form-control"
+                                                                          id="exampleFormControlTextarea1"
+                                                                          style="display: none"><?= $product[$i]["productDetails"] ?></textarea>
                                                                 <textarea name="product-detail" class="form-control"
                                                                           id="exampleFormControlTextarea1"
                                                                           data-detail="<?= $product[$i]["productDetails"] ?>"

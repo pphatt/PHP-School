@@ -92,8 +92,3 @@ include_once 'function/getData.php';
 //
 //$j = 0;
 //echo $j + 1;
-
-$d = "Samsung-S10+-Pro-Max";
-echo str_contains($d, '-');
-$d = str_replace("-", " ", $d);
-echo $d;

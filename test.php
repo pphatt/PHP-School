@@ -84,11 +84,16 @@ session_start();
 
 include_once 'function/getData.php';
 
-$q = getQuery("
-                                  select distinct cast(`current_time` as date) as d, timestampdiff(day, `current_time`, current_timestamp) as diff from log
-                                  where timestampdiff(day, `current_time`, current_timestamp) <= 30");
+//$q = getQuery("
+//                                  select distinct cast(`current_time` as date) as d, timestampdiff(day, `current_time`, current_timestamp) as diff from log
+//                                  where timestampdiff(day, `current_time`, current_timestamp) <= 30");
+//
+//echo $q[0]["diff"];
+//
+//$j = 0;
+//echo $j + 1;
 
-echo $q[0]["diff"];
-
-$j = 0;
-echo $j + 1;
+$d = "Samsung-S10+-Pro-Max";
+echo str_contains($d, '-');
+$d = str_replace("-", " ", $d);
+echo $d;

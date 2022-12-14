@@ -74,7 +74,22 @@ if (isset($_POST["edit"])) {
         }
 
         if ($_POST['product-name'] !== $_POST['previous-name']) {
-            $t[] = "Name," . $_POST['previous-name'] . "," . $_POST['product-name'];
+            $g = explode(" ", $_POST['product-name']);
+            $h = explode(" ", $_POST['previous-name']);
+
+            if (count($g) > 1) {
+                $g = join("-", $g);
+            } else {
+                $g = $_POST['product-name'];
+            }
+
+            if (count($h) > 1) {
+                $h = join("-", $h);
+            } else {
+                $h = $_POST['previous-name'];
+            }
+
+            $t[] = "Name," . $h . "," . $g;
         }
 
         if ($_POST['product-price'] !== $_POST['previous-price']) {
@@ -119,6 +134,10 @@ if (isset($_POST['delete'])) {
 
     header('Location: products.php');
 }
+
+$q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`current_time`, current_date) as diff from log
+                  where datediff(`current_time`, current_date) >= -30
+                  order by d desc")
 
 ?>
 
@@ -182,7 +201,7 @@ if (isset($_POST['delete'])) {
             <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 160px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item">
-                    <a href="index.php?page=1&dd=0" class="menu-link">
+                    <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Admin Profile</div>
                     </a>
@@ -444,7 +463,8 @@ if (isset($_POST['delete'])) {
                                                             data-bs-dismiss="modal">Close
                                                     </button>
                                                     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                                                        <input type="hidden" value="<?= $product[$i]['productID'] ?>" name="delete-id" />
+                                                        <input type="hidden" value="<?= $product[$i]['productID'] ?>"
+                                                               name="delete-id"/>
                                                         <button type="submit" class="btn btn-primary" name="delete">
                                                             Delete
                                                         </button>

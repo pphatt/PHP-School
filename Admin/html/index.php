@@ -173,11 +173,11 @@ $admin_profile = $result->fetchAll();
                                 <div class="divider-text"
                                      style="font-size: 20px">
                                     <?php $x = $_GET['dd'] ?>
-                                    <strong><?= date('d.m.Y', strtotime("-$x days")) ?></strong>
+                                    <strong><?= date('d.m.Y', strtotime("$x days")) ?></strong>
                                 </div>
                                 <?php
                                 $y = "select * from log
-                                          where timestampdiff(day, log.`current_time`, current_timestamp) = ? and adminEmail = ?
+                                        where datediff(`current_time`, current_date) = ? and adminEmail = ?
                                           order by log.`current_time`";
 
                                 $result = $conn->prepare($y);
@@ -214,7 +214,13 @@ $admin_profile = $result->fetchAll();
                                                     $k = 0;
                                                 } ?>
                                                 <?php for (; $k < count($p); $k++) {
-                                                      $w = explode(",", $p[$k]) ?>
+                                                    $w = explode(",", $p[$k]);
+                                                    if (str_contains($w[1], '-')) {
+                                                        $w[1] = str_replace("-", " ", $w[1]);
+                                                    }
+                                                    if (str_contains($w[2], '-')) {
+                                                        $w[2] = str_replace("-", " ", $w[2]);
+                                                    } ?>
                                                     <div style='display: flex;align-items: center;gap: 5px'>
                                                         <strong style='width: 68px'><?= $w[0] ?>:</strong>
                                                         <span style='color: black'>+</span>
@@ -242,8 +248,9 @@ $admin_profile = $result->fetchAll();
                         <ul class="pagination justify-content-center">
                             <?php
                             $q = getQuery("
-                                  select distinct cast(`current_time` as date) as d, timestampdiff(day, `current_time`, current_timestamp) as diff from log
-                                  where timestampdiff(day, `current_time`, current_timestamp) <= 30");
+                                  select distinct cast(`current_time` as date) as d, datediff(`current_time`, current_date) as diff from log
+                                  where datediff(`current_time`, current_date) >= -30
+                                  order by d desc");
                             ?>
                             <li class="page-item prev">
                                 <?php
@@ -251,7 +258,7 @@ $admin_profile = $result->fetchAll();
                                 if ($_GET["page"] === "1") {
                                     $previous .= count($q) . "&dd=" . count($q) - 1;
                                 } else {
-                                    $previous .= $_GET["page"] - 1 . "&dd=". $_GET["page"] - 2;
+                                    $previous .= $_GET["page"] - 1 . "&dd=" . $_GET["page"] - 2;
                                 }
                                 ?>
                                 <a class="page-link" href="<?= $previous ?>"><i class="tf-icon bx bx-chevrons-left"></i></a>
@@ -259,7 +266,8 @@ $admin_profile = $result->fetchAll();
                             <?php
                             for ($i = 0; $i < count($q); $i++) { ?>
                                 <li class="page-item <?php echo $_GET['page'] === strval($i + 1) ? 'active' : '' ?>">
-                                    <a class="page-link" href="index.php?page=<?= $i + 1 ?>&dd=<?= $q[$i]['diff'] ?>"><?= $i + 1 ?></a>
+                                    <a class="page-link"
+                                       href="index.php?page=<?= $i + 1 ?>&dd=<?= $q[$i]['diff'] ?>"><?= $i + 1 ?></a>
                                 </li>
                             <?php } ?>
                             <li class="page-item next">
@@ -268,10 +276,11 @@ $admin_profile = $result->fetchAll();
                                 if ($_GET["page"] === strval(count($q))) {
                                     $next .= 1 . "&dd=" . 0;
                                 } else {
-                                    $next .= $_GET["page"] + 1 . "&dd=". $_GET["page"];
+                                    $next .= $_GET["page"] + 1 . "&dd=" . $_GET["page"];
                                 }
                                 ?>
-                                <a class="page-link" href="<?= $next ?>"><i class="tf-icon bx bx-chevrons-right"></i></a>
+                                <a class="page-link" href="<?= $next ?>"><i
+                                            class="tf-icon bx bx-chevrons-right"></i></a>
                             </li>
                         </ul>
                     </nav>

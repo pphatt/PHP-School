@@ -256,9 +256,9 @@ $admin_profile = $result->fetchAll();
                                 <?php
                                 $previous = "index.php?page=";
                                 if ($_GET["page"] === "1") {
-                                    $previous .= count($q) . "&dd=" . count($q) - 1;
+                                    $previous .= count($q) . "&dd=" . $q[count($q) - 1]['diff'];
                                 } else {
-                                    $previous .= $_GET["page"] - 1 . "&dd=" . $_GET["page"] - 2;
+                                    $previous .= $_GET["page"] - 1 . "&dd=" . $q[$_GET["page"] - 2]['diff'];
                                 }
                                 ?>
                                 <a class="page-link" href="<?= $previous ?>"><i class="tf-icon bx bx-chevrons-left"></i></a>
@@ -274,9 +274,9 @@ $admin_profile = $result->fetchAll();
                                 <?php
                                 $next = "index.php?page=";
                                 if ($_GET["page"] === strval(count($q))) {
-                                    $next .= 1 . "&dd=" . 0;
+                                    $next .= 1 . "&dd=" . $q[0]['diff'];
                                 } else {
-                                    $next .= $_GET["page"] + 1 . "&dd=" . $_GET["page"];
+                                    $next .= $_GET["page"] + 1 . "&dd=" . $q[$_GET["page"]]['diff'];
                                 }
                                 ?>
                                 <a class="page-link" href="<?= $next ?>"><i

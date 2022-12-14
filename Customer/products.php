@@ -64,36 +64,81 @@ $product = getQuery("select * from product");
     </header>
 </div>
 
-<section class="shop_section layout_padding">
-    <div class="container">
+<section class="shop_section layout_padding" style="background-color: #f5f5f9">
+    <div class="container" style="padding: 0;">
         <div class="heading_container heading_center">
-            <h2>
-                Hot Sale Phone
-            </h2>
+            <div>
+
+            </div>
         </div>
 
-        <div class="row">
-            <?php for($i = 0; $i < count($product); $i++) { ?>
-                <div class="col-sm-6">
-                    <div class="box" style="background-color: white; border: 4px solid black">
-                        <a href="">
-                            <div class="img-box">
-                                <img src="../img/products/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
-                            </div>
-                            <div class="detail-box">
-                                <h6><?= $product[$i]["productName"] ?></h6>
-                                <h6>
-                                    Price: <span>$<?= $product[$i]["productPrice"] ?></span>
-                                </h6>
-                            </div>
+        <div style="display: flex; justify-content: space-between; gap: 50px;width: 1250px">
+            <div class="card mb-4" style="background-clip: padding-box;
+                                          box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);
+                                          max-width: 200px; min-width: 200px;max-height: 125px">
+                <div class="card-body">
+                    Brand
+                    <div style="display: flex; flex-flow: wrap; justify-content: space-between">
+                        <div style="display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 5px;">
+                            <input type="checkbox" />
+                            <span>iPhone</span>
+                        </div>
+                        <div style="display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 5px;">
+                            <input type="checkbox" />
+                            <span>Samsung</span>
+                        </div>
+                        <div style="display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 5px;">
+                            <input type="checkbox" />
+                            <span>Sony</span>
+                        </div>
+                        <div style="display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 5px;">
+                            <input type="checkbox" />
+                            <span>Redmi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <div class="new">
-                                <span>New</span>
+            <div style="display: flex;flex-flow: wrap">
+                <?php for($i = 0; $i < count($product); $i++) { ?>
+                <div class="card" style="width: 250px;margin-bottom: 2px;overflow: hidden">
+                    <div style="position: inherit;
+                                width: fit-content;
+                                border: 2px solid #d97373;
+                                color: white;
+                                background-color: #d97373;
+                                top: 0;
+                                left: 0;">Best Seller</div>
+                    <div class="card-body">
+                        <a>
+                            <div>
+                                <img width="200px" loading="lazy" src="../img/products/iPhone/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
+                            </div>
+                            <div>
+                                <div>
+                                    <h6><?= $product[$i]["productName"] ?></h6>
+                                </div>
+                                <h6>
+                                    <span><strong>$<?= $product[$i]["productPrice"] ?></strong></span>
+                                </h6>
                             </div>
                         </a>
                     </div>
                 </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
         </div>
     </div>
 </section>

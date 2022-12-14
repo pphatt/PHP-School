@@ -211,26 +211,26 @@ $product = getQuery("select * from product");
             <?php
             $length = count($product);
 
-            if ($length >= 10) {
+            if ($length >= 13) {
                 $length = 10;
             }
 
             for($i = 0; $i < $length; $i++) { ?>
-                <div class="col-sm-6">
-                    <div class="box" style="background-color: white; border: 4px solid black">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="box" style="background-color: white; border: 4px solid black; height: 350px">
                         <a href="">
                             <div class="img-box">
-                                <img src="../img/products/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
+                                <img src="../img/products/iPhone/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
                             </div>
                             <div class="detail-box">
                                 <h6><?= $product[$i]["productName"] ?></h6>
                                 <h6>
-                                    Price: <span>$<?= $product[$i]["productPrice"] ?></span>
+                                    <span style="font-size: 25px">$<?= $product[$i]["productPrice"] ?></span>
                                 </h6>
                             </div>
 
-                            <div class="new">
-                                <span>New</span>
+                            <div class="new" style="background-color: #E67A00">
+                                <span>Best Seller</span>
                             </div>
                         </a>
                     </div>
@@ -239,7 +239,7 @@ $product = getQuery("select * from product");
         </div>
 
         <div class="btn-box">
-            <a href="products.php">
+            <a href="products.php" style="background-color: #E67A00">
                 View All
             </a>
         </div>
@@ -259,44 +259,51 @@ $product = getQuery("select * from product");
                         200 Latin words, combined with
                     </p>
                     <div class="footer_social">
-                        <a href="">
+                        <style>
+                            #lkz {
+                                cursor: pointer;
+                            }
+
+                            #lkz:hover {
+                                color: #E67A00
+                            }
+                        </style>
+
+                        <a id="lkz">
                             <i class="fa fa-facebook" aria-hidden="true"></i>
                         </a>
-                        <a href="">
+                        <a id="lkz">
                             <i class="fa fa-twitter" aria-hidden="true"></i>
                         </a>
-                        <a href="">
+                        <a id="lkz">
                             <i class="fa fa-linkedin" aria-hidden="true"></i>
                         </a>
-                        <a href="">
+                        <a id="lkz">
                             <i class="fa fa-instagram" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6 col-lg-3 footer-col">
                 <div class="footer_contact">
                     <h4>
                         Reach at..
                     </h4>
                     <div class="contact_link_box">
-                        <a href="">
+                        <a href="" id="lkz">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            <span>
-                  Location
-                </span>
+                            <span>Location</span>
                         </a>
-                        <a href="">
+
+                        <a href="" id="lkz">
                             <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>
-                  Call +01 1234567890
-                </span>
+                            <span>Call +01 1234567890</span>
                         </a>
-                        <a href="">
+
+                        <a href="" id="lkz">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
-                            <span>
-                  demo@gmail.com
-                </span>
+                            <span>demo@gmail.com</span>
                         </a>
                     </div>
                 </div>
@@ -307,9 +314,10 @@ $product = getQuery("select * from product");
                     <h4>
                         Subscribe
                     </h4>
-                    <form action="#">
+                    <form>
                         <input type="text" placeholder="Enter email"/>
-                        <button type="submit">
+
+                        <button type="submit" style="background-color: #E67A00; border-color: #E67A00">
                             Subscribe
                         </button>
                     </form>

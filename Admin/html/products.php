@@ -414,6 +414,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                 <thead>
                                 <tr>
                                     <th>Product ID</th>
+                                    <!--                                    <th>Product Image</th>-->
                                     <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Status</th>
@@ -427,6 +428,12 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                             <i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong id="product-id-<?= $i ?>"><?= $product[$i]['productID'] ?></strong>
                                         </td>
+
+                                        <!--                                                                                <td>-->
+                                        <!--                                                                                    <img width="100px" height="100px" src="../../img/products/-->
+                                        <!--                                        -->
+                                        <?php //= $product[$i]['productImage'] ?><!--.jpg" />-->
+                                        <!--                                                                                </td>-->
 
                                         <td>
                                             <?= $product[$i]['productName'] ?>
@@ -454,20 +461,44 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                     </a>
 
                                                     <a class="dropdown-item" data-bs-toggle="modal"
-                                                       data-bs-target="#exampleModal-<?= $i ?>" style="cursor: pointer">
+                                                       data-bs-target="#modalDelete-<?= $i ?>" style="cursor: pointer">
                                                         <i class="bx bx-trash me-1"></i>Delete
+                                                    </a>
+
+                                                    <a class="dropdown-item" data-bs-toggle="modal"
+                                                       data-bs-target="#modalImage-<?= $i ?>" style="cursor: pointer">
+                                                        <i class='bx bx-image'></i> Show Image
                                                     </a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
 
-                                    <div class="modal fade" id="exampleModal-<?= $i ?>" tabindex="-1"
-                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="modalImage-<?= $i ?>" tabindex="-1"
+                                         aria-labelledby="modalImageLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+                                                    <h1 class="modal-title fs-5" id="modalImageLabel">Product Picture:
+                                                        <strong><?= $product[$i]["productID"] ?></strong></h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <img width="500px" loading="lazy"
+                                                         src="../../img/products/iPhone/<?= $product[$i]['productImage'] ?>.jpg"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="modalDelete-<?= $i ?>" tabindex="-1"
+                                         aria-labelledby="modalDeleteLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="modalDeleteLabel">Delete
                                                         Confirmation</h1>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>

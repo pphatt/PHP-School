@@ -209,7 +209,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
             <div class="app-brand demo" style="background-color: #fefeff;
                                         border-radius: 0.375rem; justify-content: center; padding-right: 0;
                                         padding-left: 0;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
-                <a href="index.php" class="app-brand-link">
+                <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="app-brand-link">
                     <span class="app-brand-text demo menu-text fw-bolder"
                           style="text-transform: capitalize">Phone Shop</span>
                 </a>
@@ -274,7 +274,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="index.php?page=1&dd=<?= $q[0]['diff'] ?>">
                                         <i class="bx bx-user me-2"></i>
                                         <span class="align-middle">My Profile</span>
                                     </a>

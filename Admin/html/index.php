@@ -12,6 +12,10 @@ $result->bindParam(1, $_SESSION['email']);
 $result->execute();
 $admin_profile = $result->fetchAll();
 
+$q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`current_time`, current_date) as diff from log
+                  where datediff(`current_time`, current_date) >= -30
+                  order by d desc")
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +72,7 @@ $admin_profile = $result->fetchAll();
             <div class="app-brand demo" style="background-color: #fefeff;
                                         border-radius: 0.375rem; justify-content: center; padding-right: 0;
                                         padding-left: 0;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
-                <a href="index.php" class="app-brand-link">
+                <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="app-brand-link">
                     <span class="app-brand-text demo menu-text fw-bolder"
                           style="text-transform: capitalize">Phone Shop</span>
                 </a>
@@ -79,7 +83,7 @@ $admin_profile = $result->fetchAll();
             <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 160px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item active">
-                    <a href="index.php" class="menu-link">
+                    <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Admin Profile</div>
                     </a>
@@ -101,7 +105,7 @@ $admin_profile = $result->fetchAll();
 
         <div class="layout-page" style="padding-left: 18.125rem">
             <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center"
-                 id="layout-navbar" style="width: fit-content; margin-right: 121px">
+                 id="layout-navbar" style="width: fit-content; margin-right: 29px">
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -133,7 +137,7 @@ $admin_profile = $result->fetchAll();
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="index.php?page=1&dd=<?= $q[0]['diff'] ?>">
                                         <i class="bx bx-user me-2"></i>
                                         <span class="align-middle">My Profile</span>
                                     </a>
@@ -154,7 +158,7 @@ $admin_profile = $result->fetchAll();
             </nav>
 
             <div class="content-wrapper">
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container-xxl flex-grow-1 container-p-y" style="max-width: 100%">
                     <div class="flex-shrink-0 me-3"
                          style="display: flex;margin-bottom: 10px;margin-top: 1px;align-items: center">
                         <img src="../../img/profile-picture-1.png" alt

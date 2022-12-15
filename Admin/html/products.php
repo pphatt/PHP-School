@@ -61,12 +61,12 @@ if (isset($_POST["edit"])) {
 
         $image = $_POST["product-image"] === "" ? $_POST["previous-image"] : $_POST["product-image"];
 
-        $s = match($_POST["product-status"]) {
+        $s = match ($_POST["product-status"]) {
             '1' => 'On-Stock',
             '2' => 'Out-of-Stock'
         };
 
-        $s1 = match($_POST["previous-status"]) {
+        $s1 = match ($_POST["previous-status"]) {
             '1' => 'On-Stock',
             '2' => 'Out-of-Stock'
         };
@@ -367,6 +367,9 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                        class="form-control"
                                                        placeholder="Enter Product's ID"
                                                        name="product-id"
+                                                       aria-describedby="button-addon2"
+                                                       minlength="4"
+                                                       maxlength="6"
                                                 />
                                             </div>
                                         </div>
@@ -380,6 +383,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                        class="form-control"
                                                        placeholder="Enter Product's Name"
                                                        name="product-name"
+                                                       minlength="10"
+                                                       maxlength="100"
                                                 />
                                             </div>
                                         </div>
@@ -393,6 +398,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                        class="form-control"
                                                        placeholder="$$$"
                                                        name="product-price"
+                                                       min="1"
+                                                       max="1000"
                                                 />
                                             </div>
 
@@ -411,7 +418,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                 <label for="exampleFormControlTextarea1" class="form-label">Product's
                                                     Detail</label>
                                                 <textarea name="product-detail" class="form-control"
-                                                          id="exampleFormControlTextarea1"></textarea>
+                                                          id="exampleFormControlTextarea1" maxlength="125"></textarea>
                                             </div>
                                         </div>
 
@@ -421,7 +428,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                     <label for="formFile" class="form-label">Default file input
                                                         example</label>
                                                     <input name="product-image" class="form-control" type="file"
-                                                           id="formFile"/>
+                                                           id="formFile" required/>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -596,6 +603,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                        data-id="<?= $product[$i]["productID"] ?>"
                                                                        onchange="autofill(this)"
                                                                        value="<?= $product[$i]["productID"] ?>"
+                                                                       minlength="4"
+                                                                       maxlength="6"
                                                                 />
                                                             </div>
                                                         </div>
@@ -615,6 +624,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                        data-name="<?= $product[$i]["productName"] ?>"
                                                                        onchange="autofill(this)"
                                                                        value="<?= $product[$i]["productName"] ?>"
+                                                                       minlength="10"
+                                                                       maxlength="100"
                                                                 />
                                                             </div>
                                                         </div>
@@ -634,6 +645,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                        data-price="<?= $product[$i]["productPrice"] ?>"
                                                                        onchange="autofill(this)"
                                                                        value="<?= $product[$i]["productPrice"] ?>"
+                                                                       min="1"
+                                                                       max="1000"
                                                                 />
                                                             </div>
 
@@ -672,7 +685,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 <textarea name="product-detail" class="form-control"
                                                                           id="exampleFormControlTextarea1"
                                                                           data-detail="<?= $product[$i]["productDetails"] ?>"
-                                                                          onchange="autofill(this)"><?= $product[$i]["productDetails"] ?></textarea>
+                                                                          onchange="autofill(this)"
+                                                                          maxlength="125"><?= $product[$i]["productDetails"] ?></textarea>
                                                             </div>
                                                         </div>
 
@@ -714,7 +728,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 </div>
 
                                                                 <div class="mb-3">
-                                                                    <label style="display: none" for="defaultSelect" class="form-label">Category
+                                                                    <label style="display: none" for="defaultSelect"
+                                                                           class="form-label">Category
                                                                         <select name="previous-category"
                                                                                 id="defaultSelect"
                                                                                 class="form-select">

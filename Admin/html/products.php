@@ -15,6 +15,7 @@ if ($_SESSION["login"] === null) {
 
 $product = getQuery("select * from product");
 $category = getQuery("select * from category");
+$s = getQuery("select * from productStatus");
 
 /*
  * A query that execute when add edit or delete get recorded in table log
@@ -53,16 +54,43 @@ if (isset($_POST['product-add'])) {
 if (isset($_POST["edit"])) {
     try {
         $sql = "update product
-                set productID=?, productName=?, productPrice=?, productDetails=?, productStatus=?
+                set productID=?, productName=?, productPrice=?, productImage=?, productDetails=?, productStatus=?, categoryID=?
                 where productID = ?";
 
         $stmt = $conn->prepare($sql);
+
+        $image = $_POST["product-image"] === "" ? $_POST["previous-image"] : $_POST["product-image"];
+
+        $s = match($_POST["product-status"]) {
+            '1' => 'On-Stock',
+            '2' => 'Out-of-Stock'
+        };
+
+        $s1 = match($_POST["previous-status"]) {
+            '1' => 'On-Stock',
+            '2' => 'Out-of-Stock'
+        };
+
+        $c = match ($_POST["product-category"]) {
+            '1' => "Samsung",
+            '2' => "Apple",
+            '3' => "Sony"
+        };
+
+        $c1 = match ($_POST["previous-category"]) {
+            '1' => "Samsung",
+            '2' => "Apple",
+            '3' => "Sony"
+        };
+
         $stmt->bindParam(1, $_POST['product-id']);
         $stmt->bindParam(2, $_POST['product-name']);
         $stmt->bindParam(3, $_POST['product-price']);
-        $stmt->bindParam(4, $_POST['product-detail']);
-        $stmt->bindParam(5, $_POST['product-status']);
-        $stmt->bindParam(6, $_POST['previous-id']);
+        $stmt->bindParam(4, $image);
+        $stmt->bindParam(5, $_POST['product-detail']);
+        $stmt->bindParam(6, $_POST['product-status']);
+        $stmt->bindParam(7, $_POST["product-category"]);
+        $stmt->bindParam(8, $_POST['previous-id']);
         $stmt->execute();
 
         $t = [];
@@ -96,6 +124,10 @@ if (isset($_POST["edit"])) {
             $t[] = "Price," . $_POST['previous-price'] . "," . $_POST['product-price'];
         }
 
+        if ($_POST["product-image"] !== "") {
+            $t[] = "Image," . $_POST["previous-image"] . "," . $_POST["product-image"];
+        }
+
         if ($_POST['product-detail'] !== $_POST['previous-detail']) {
             $j = explode(" ", $_POST['previous-detail']);
             $k = explode(" ", $_POST['product-detail']);
@@ -115,7 +147,15 @@ if (isset($_POST["edit"])) {
             $t[] = "Detail," . $j . "," . $k;
         }
 
-        if (count($t) > 0) {
+        if ($_POST["product-status"] !== $_POST["previous-status"]) {
+            $t[] = "Status," . $s1 . "," . $s;
+        }
+
+        if ($c !== $c1) {
+            $t[] = "Category," . $c1 . "," . $c;
+        }
+
+        if (count($t) > 1) {
             $note = join(' ', $t);
             $p = '2';
 
@@ -361,8 +401,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                     <label for="defaultSelect" class="form-label">Status</label>
                                                     <select name="product-status" id="defaultSelect"
                                                             class="form-select">
-                                                        <option>On Stock</option>
-                                                        <option value="1">Out of Stock</option>
+                                                        <option value="1">On Stock</option>
+                                                        <option value="2">Out of Stock</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -414,7 +454,6 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                 <thead>
                                 <tr>
                                     <th>Product ID</th>
-                                    <!--                                    <th>Product Image</th>-->
                                     <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Status</th>
@@ -429,12 +468,6 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                             <strong id="product-id-<?= $i ?>"><?= $product[$i]['productID'] ?></strong>
                                         </td>
 
-                                        <!--                                                                                <td>-->
-                                        <!--                                                                                    <img width="100px" height="100px" src="../../img/products/-->
-                                        <!--                                        -->
-                                        <?php //= $product[$i]['productImage'] ?><!--.jpg" />-->
-                                        <!--                                                                                </td>-->
-
                                         <td>
                                             <?= $product[$i]['productName'] ?>
                                         </td>
@@ -444,7 +477,11 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         </td>
 
                                         <td>
-                                            <span class="badge bg-label-success me-1"><?= $product[$i]['productStatus'] ?></span>
+                                            <?php if ($product[$i]['productStatus'] === 1) { ?>
+                                                <span class="badge bg-label-success me-1">On Stock</span>
+                                            <?php } else { ?>
+                                                <span class="badge bg-label-danger me-1">Out of Stock</span>
+                                            <?php } ?>
                                         </td>
 
                                         <td>
@@ -487,7 +524,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                                                 <div class="modal-body">
                                                     <img width="500px" loading="lazy"
-                                                         src="../../img/products/iPhone/<?= $product[$i]['productImage'] ?>.jpg"/>
+                                                         src="../../img/products/iPhone/<?= $product[$i]['productImage'] ?>"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -523,6 +560,12 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                             </div>
                                         </div>
                                     </div>
+
+                                    <style>
+                                        div[id*='modalCenter-']::-webkit-scrollbar {
+                                            display: none;
+                                        }
+                                    </style>
 
                                     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
                                         <div class="modal fade" id="modalCenter-<?= $i ?>" tabindex="-1"
@@ -598,10 +641,24 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 <div class="mb-3">
                                                                     <label for="defaultSelect"
                                                                            class="form-label">Status</label>
+                                                                    <select name="previous-status" id="defaultSelect"
+                                                                            class="form-select" style="display: none">
+                                                                        <?php foreach ($s as $id) { ?>
+                                                                            <option value="<?= $id["statusID"] ?>"
+                                                                                <?php echo $id["statusID"] === $product[$i]["productStatus"] ? "selected" : "" ?>>
+                                                                                <?= $id["statusName"] ?>
+                                                                            </option>
+                                                                        <?php } ?>
+                                                                    </select>
+
                                                                     <select name="product-status" id="defaultSelect"
                                                                             class="form-select">
-                                                                        <option>On Stock</option>
-                                                                        <option value="1">Out of Stock</option>
+                                                                        <?php foreach ($s as $id) { ?>
+                                                                            <option value="<?= $id["statusID"] ?>"
+                                                                                <?php echo $id["statusID"] === $product[$i]["productStatus"] ? "selected" : "" ?>>
+                                                                                <?= $id["statusName"] ?>
+                                                                            </option>
+                                                                        <?php } ?>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -622,15 +679,54 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                         <div class="row g-2">
                                                             <div class="col mb-0">
                                                                 <div class="mb-3">
-                                                                    <label for="formFile" class="form-label">Default
-                                                                        file input
-                                                                        example</label>
+                                                                    <label for="formFile" class="form-label">Product
+                                                                        Image</label>
+                                                                    <input name="previous-image" class="form-control"
+                                                                           type="hidden"
+                                                                           id="formFile"
+                                                                           value="<?= $product[$i]["productImage"] ?>"
+                                                                           accept="image/.png,.jpg"/>
+
                                                                     <input name="product-image" class="form-control"
                                                                            type="file"
                                                                            id="formFile"/>
+
+                                                                    <button data-bs-toggle="collapse"
+                                                                            data-bs-target="#accordionOne"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="accordionOne"
+                                                                            style="margin-top: 10px" type="button"
+                                                                            class="btn btn-outline-dark">
+                                                                        <i class='bx bx-image'></i>
+                                                                        <span>View Old Image</span>
+                                                                    </button>
+
+                                                                    <div id="accordionOne"
+                                                                         class="accordion-collapse collapse"
+                                                                         data-bs-parent="#accordionExample"
+                                                                         style="">
+                                                                        <div class="accordion-body"
+                                                                             style="display: flex; justify-content: center">
+                                                                            <img width="200px"
+                                                                                 src="../../img/products/iPhone/<?= $product[$i]['productImage'] ?>"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="mb-3">
+                                                                    <label style="display: none" for="defaultSelect" class="form-label">Category
+                                                                        <select name="previous-category"
+                                                                                id="defaultSelect"
+                                                                                class="form-select">
+                                                                            <?php foreach ($category as $id) { ?>
+                                                                                <option value="<?= $id["categoryID"] ?>"
+                                                                                    <?php echo $id["categoryID"] === $product[$i]["categoryID"] ? "selected" : "" ?>>
+                                                                                    <?= $id["categoryName"] ?>
+                                                                                </option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                                    </label>
+
                                                                     <label for="defaultSelect" class="form-label">Category
                                                                         <select name="product-category"
                                                                                 id="defaultSelect"
@@ -642,6 +738,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                                 </option>
                                                                             <?php } ?>
                                                                         </select>
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                         </div>

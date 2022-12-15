@@ -220,7 +220,7 @@ $product = getQuery("select * from product");
                     <div class="box" style="background-color: white; border: 4px solid black; height: 350px">
                         <a href="">
                             <div class="img-box">
-                                <img src="../img/products/iPhone/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
+                                <img src="../img/products/iPhone/<?= $product[$i]["productImage"] ?>" alt="No Image">
                             </div>
                             <div class="detail-box">
                                 <h6><?= $product[$i]["productName"] ?></h6>

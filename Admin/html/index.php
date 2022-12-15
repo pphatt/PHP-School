@@ -165,8 +165,11 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                              class="rounded-circle" style="height: 150px; width: 150px; border: 10px solid #f5f5f9"/>
                         <div class="card" style="height: fit-content">
                             <div class="card-body" style="display: flex; justify-content: center; align-items: center">
-                                <span style="font-size: 20px">Name: <span
-                                            style="font-weight: bold; font-size: 30px"><?= $admin_profile[0]['adminName'] ?></span></span>
+                                <span style="font-size: 20px">Name:
+                                    <span style="font-weight: bold; font-size: 25px;text-transform: uppercase">
+                                        <?= $admin_profile[0]['adminName'] ?>
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -199,22 +202,22 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                     <?php
                                     for ($i = 0; $i < count($log); $i++) { ?>
                                         <div style="display: flex;gap: 24px">
-                                            <h4 style="font-size: 20px; margin: 7px 0 0 6px;width: 90px">
+                                            <h4 style="font-size: 16px; margin: 7px 0 0 6px;width: 90px">
                                                 <strong><?= explode(" ", $log[$i]["current_time"])[1] ?></strong>
                                             </h4>
                                             <?php if ($log[$i]["logTypes"] === 1) { ?>
                                                 <span class="badge bg-label-success"
-                                                      style="margin: 7px 19px 0 0; height: fit-content">Add</span>
-                                                <div style="font-size: 1.375rem">New
+                                                      style="margin: 4px 19px 0 0; height: fit-content">Add</span>
+                                                <div style="font-size: 18px">New
                                                     Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
                                             <?php } else if ($log[$i]["logTypes"] === 2) { ?>
                                                 <span class="badge bg-label-warning"
-                                                      style="margin: 7px 19px 0 0; height: fit-content">Edit</span>
+                                                      style="margin: 4px 19px 0 0; height: fit-content">Edit</span>
                                                 <?php
                                                 $p = explode(" ", $log[$i]["log_note"]);
                                                 $id = explode(",", $p[0])[2];
                                                 ?>
-                                                <div style="font-size: 1.375rem">Edit Product
+                                                <div style="font-size: 18px">Edit Product
                                                     <strong>(<?= $id ?>)</strong>
                                                     <?php
                                                     $a = explode(",", $p[0]);
@@ -232,21 +235,24 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                         if (str_contains($w[2], '-')) {
                                                             $w[2] = str_replace("-", " ", $w[2]);
                                                         } ?>
-                                                        <div style='display: flex;align-items: center;gap: 5px'>
-                                                            <strong style='width: 68px'><?= $w[0] ?>:</strong>
-                                                            <span style='color: black'>+</span>
+                                                        <div style='display: flex;align-items: center;gap: 5px;min-width: 200px'>
+                                                            <strong style='width: fit-content'><?= $w[0] ?>:</strong>
+                                                            <i class='bx bx-plus'></i>
                                                             <span style='background-color: #ddf4d2'><?= $w[2] ?></span>
                                                         </div>
-                                                        <div style='display: flex;align-items: center;gap: 6px;margin-left: 72px'>
-                                                            <span style='color: black; font-size: 32px'>-</span>
+                                                        <div style='display: flex;align-items: center;gap: 5px;height: 28px;margin-top: 5px'>
+                                                            <strong style='width: fit-content;user-select: none;color:white'>
+                                                                <?= $w[0] ?>:
+                                                            </strong>
+                                                            <i class='bx bx-minus'></i>
                                                             <span style='background-color: #ffb0a3'><?= $w[1] ?></span>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
                                             <?php } else { ?>
                                                 <span class="badge bg-label-danger"
-                                                      style="height: fit-content;margin-top: 7px">Delete</span>
-                                                <div style="font-size: 1.375rem">Delete
+                                                      style="height: fit-content;margin-top: 4px">Delete</span>
+                                                <div style="font-size: 18px">Delete
                                                     Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
                                             <?php } ?>
                                         </div>

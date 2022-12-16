@@ -91,105 +91,61 @@ $product = getQuery("select * from product");
     <section class="slider_section" style="background-color: white; border: 4px solid black">
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="container-fluid ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="detail-box">
-                                    <h1 style="color: black">
-                                        Iphone 14 Pro Max
-                                    </h1>
-                                    <div class="btn-box">
-                                        <a href="" class="btn1" style="background-color: black">
-                                            Contact Us
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="img-box">
-                                    <img src="../img/products/iphone-14-pro-max-purple-1.jpg" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="carousel-item ">
-                    <div class="container-fluid ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="detail-box">
-                                    <h1 style="color: black">
-                                        Iphone 14 Gold
-                                    </h1>
-                                    <div class="btn-box">
-                                        <a href="" class="btn1" style="background-color: black">
-                                            Contact Us
-                                        </a>
+                <?php $kk = getQuery("select * from product limit 5"); ?>
+                    <div class="carousel-item active">
+                        <div class="container-fluid ">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-box">
+                                        <h1 style="color: black">
+                                            <?= $kk[0]['productName'] ?>
+                                        </h1>
+                                        <div class="btn-box">
+                                            <a href="" class="btn1" style="background-color: black">
+                                                Contact Us
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="img-box">
-                                    <img src="../img/products/iphone-14-pro-gold.jpg" alt="">
+                                <div class="col-md-6">
+                                    <div class="img-box">
+                                        <img src="../img/products/iPhone/<?= $kk[0]['productImage'] ?>" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="carousel-item ">
-                    <div class="container-fluid ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="detail-box">
-                                    <h1 style="color: black">
-                                        Iphone 14 Plus Black
-                                    </h1>
-                                    <div class="btn-box">
-                                        <a href="" class="btn1" style="background-color: black">
-                                            Contact Us
-                                        </a>
+                <?php for ($i = 1; $i < count($kk); $i++) { ?>
+                    <div class="carousel-item">
+                        <div class="container-fluid ">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-box">
+                                        <h1 style="color: black">
+                                            <?= $kk[$i]['productName'] ?>
+                                        </h1>
+                                        <div class="btn-box">
+                                            <a href="" class="btn1" style="background-color: black">
+                                                Contact Us
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="img-box">
-                                    <img src="../img/products/iphone-14-plus-black.jpg" alt="">
+                                <div class="col-md-6">
+                                    <div class="img-box">
+                                        <img src="../img/products/iPhone/<?= $kk[$i]['productImage'] ?>" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="carousel-item ">
-                    <div class="container-fluid ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="detail-box">
-                                    <h1 style="color: black">
-                                        Iphone 14 Plus Purple-ish
-                                    </h1>
-                                    <div class="btn-box">
-                                        <a href="" class="btn1" style="background-color: black">
-                                            Contact Us
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="img-box">
-                                    <img src="../img/products/iphone-14-plus-purple.jpg" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
 
             <ol class="carousel-indicators">
-                <li style="background-color: black" data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+                <li style="background-color: black" data-target="#customCarousel1" data-slide-to="0"
+                    class="active"></li>
                 <li style="background-color: black" data-target="#customCarousel1" data-slide-to="1"></li>
                 <li style="background-color: black" data-target="#customCarousel1" data-slide-to="2"></li>
                 <li style="background-color: black" data-target="#customCarousel1" data-slide-to="3"></li>
@@ -215,7 +171,7 @@ $product = getQuery("select * from product");
                 $length = 10;
             }
 
-            for($i = 0; $i < $length; $i++) { ?>
+            for ($i = 0; $i < $length; $i++) { ?>
                 <div class="col-sm-6 col-xl-3">
                     <div class="box" style="background-color: white; border: 4px solid black; height: 350px">
                         <a href="">

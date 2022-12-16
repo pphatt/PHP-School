@@ -370,7 +370,9 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                 aria-label="Close" onclick="l()"></button>
                                         <script>
                                             function l() {
-
+                                                document.getElementById("nameForProductIDAdd").value = ""
+                                                document.getElementById("nameForProductNameAdd").value = ""
+                                                document.getElementById("productDetailsAdd").value = ""
                                             }
                                         </script>
                                     </div>
@@ -378,11 +380,11 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="nameWithTitle"
+                                                <label for="nameForProductIDAdd"
                                                        class="form-label">Product's ID</label>
                                                 <div class="input-group">
                                                     <input type="text"
-                                                           id="nameWithTitle"
+                                                           id="nameForProductIDAdd"
                                                            class="form-control"
                                                            placeholder="Enter Product's ID"
                                                            name="product-id"
@@ -400,7 +402,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                 <script>
                                                     function b() {
                                                         let a = <?php echo json_encode(getQuery("select productID from product")) ?>;
-                                                        let j = document.getElementById("nameWithTitle").value
+                                                        let j = document.getElementById("nameForProductIDAdd").value
                                                         let l = true
 
                                                         if (j === "") {
@@ -432,37 +434,39 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="nameWithTitle"
+                                                <label for="nameForProductNameAdd"
                                                        class="form-label">Product's Name</label>
                                                 <input type="text"
-                                                       id="nameWithTitle"
+                                                       id="nameForProductNameAdd"
                                                        class="form-control"
                                                        placeholder="Enter Product's Name"
                                                        name="product-name"
                                                        minlength="10"
                                                        maxlength="100"
+                                                       required
                                                 />
                                             </div>
                                         </div>
 
                                         <div class="row g-2">
                                             <div class="col mb-0">
-                                                <label for="emailWithTitle"
+                                                <label for="numberForProductPrice"
                                                        class="form-label">Product's Price</label>
                                                 <input type="number"
-                                                       id="emailWithTitle"
+                                                       id="numberForProductPrice"
                                                        class="form-control"
                                                        placeholder="$$$"
                                                        name="product-price"
                                                        min="1"
                                                        max="1000"
+                                                       required
                                                 />
                                             </div>
 
                                             <div class="col mb-0">
                                                 <div class="mb-3">
-                                                    <label for="defaultSelect" class="form-label">Status</label>
-                                                    <select name="product-status" id="defaultSelect"
+                                                    <label for="statusSelect" class="form-label">Status</label>
+                                                    <select name="product-status" id="statusSelect"
                                                             class="form-select">
                                                         <option value="1">On Stock</option>
                                                         <option value="2">Out of Stock</option>
@@ -471,10 +475,10 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="exampleFormControlTextarea1" class="form-label">Product's
+                                                <label for="productDetailsAdd" class="form-label">Product's
                                                     Detail</label>
                                                 <textarea name="product-detail" class="form-control"
-                                                          id="exampleFormControlTextarea1" maxlength="125"></textarea>
+                                                          id="productDetailsAdd" maxlength="125"></textarea>
                                             </div>
                                         </div>
 
@@ -488,8 +492,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="defaultSelect" class="form-label">Category
-                                                        <select name="product-category" id="defaultSelect"
+                                                    <label for="categorySelect" class="form-label">Category
+                                                        <select name="product-category" id="categorySelect"
                                                                 class="form-select">
                                                             <?php foreach ($category as $id) { ?>
                                                                 <option value="<?= $id["categoryID"] ?>"><?= $id["categoryName"] ?></option>
@@ -504,7 +508,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Close
                                         </button>
-                                        <button name="product-add" type="submit" class="btn btn-primary" id="a-d">Save</button>
+                                        <button name="product-add" type="submit" class="btn btn-primary" id="a-d" disabled>Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -646,13 +650,14 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col mb-3">
-                                                                <label for="nameWithTitle"
+                                                                <label for="nameForProductIDEdit"
                                                                        class="form-label">Product's ID</label>
                                                                 <input type="hidden"
                                                                        value="<?= $product[$i]["productID"] ?>"
                                                                        name="previous-id"/>
+
                                                                 <input type="text"
-                                                                       id="nameWithTitle-<?= $i ?>"
+                                                                       id="nameForProductIDEdit-<?= $i ?>"
                                                                        class="form-control"
                                                                        placeholder="Enter Product's ID"
                                                                        name="product-id"
@@ -667,13 +672,13 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                                                         <div class="row">
                                                             <div class="col mb-3">
-                                                                <label for="nameWithTitle"
+                                                                <label for="nameForProductNameEdit"
                                                                        class="form-label">Product's Name</label>
                                                                 <input type="hidden"
                                                                        value="<?= $product[$i]["productName"] ?>"
                                                                        name="previous-name"/>
                                                                 <input type="text"
-                                                                       id="nameWithTitle"
+                                                                       id="nameForProductNameEdit"
                                                                        class="form-control"
                                                                        placeholder="Enter Product's Name"
                                                                        name="product-name"
@@ -708,9 +713,9 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                                                             <div class="col mb-0">
                                                                 <div class="mb-3">
-                                                                    <label for="defaultSelect"
+                                                                    <label for="statusSelect"
                                                                            class="form-label">Status</label>
-                                                                    <select name="previous-status" id="defaultSelect"
+                                                                    <select name="previous-status" id="statusSelect"
                                                                             class="form-select" style="display: none">
                                                                         <?php foreach ($s as $id) { ?>
                                                                             <option value="<?= $id["statusID"] ?>"
@@ -720,7 +725,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                         <?php } ?>
                                                                     </select>
 
-                                                                    <select name="product-status" id="defaultSelect"
+                                                                    <select name="product-status" id="statusSelect"
                                                                             class="form-select">
                                                                         <?php foreach ($s as $id) { ?>
                                                                             <option value="<?= $id["statusID"] ?>"
@@ -733,13 +738,13 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                             </div>
 
                                                             <div class="mb-3">
-                                                                <label for="exampleFormControlTextarea1"
+                                                                <label for="productDetails"
                                                                        class="form-label">Product's Detail</label>
                                                                 <textarea name="previous-detail" class="form-control"
-                                                                          id="exampleFormControlTextarea1"
+                                                                          id="productDetails"
                                                                           style="display: none"><?= $product[$i]["productDetails"] ?></textarea>
                                                                 <textarea name="product-detail" class="form-control"
-                                                                          id="exampleFormControlTextarea1"
+                                                                          id="productDetails"
                                                                           data-detail="<?= $product[$i]["productDetails"] ?>"
                                                                           onchange="autofill(this)"
                                                                           maxlength="125"><?= $product[$i]["productDetails"] ?></textarea>
@@ -784,10 +789,10 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 </div>
 
                                                                 <div class="mb-3">
-                                                                    <label style="display: none" for="defaultSelect"
+                                                                    <label style="display: none" for="categorySelect"
                                                                            class="form-label">Category
                                                                         <select name="previous-category"
-                                                                                id="defaultSelect"
+                                                                                id="categorySelect"
                                                                                 class="form-select">
                                                                             <?php foreach ($category as $id) { ?>
                                                                                 <option value="<?= $id["categoryID"] ?>"
@@ -798,9 +803,9 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                         </select>
                                                                     </label>
 
-                                                                    <label for="defaultSelect" class="form-label">Category
+                                                                    <label for="categorySelect" class="form-label">Category
                                                                         <select name="product-category"
-                                                                                id="defaultSelect"
+                                                                                id="categorySelect"
                                                                                 class="form-select">
                                                                             <?php foreach ($category as $id) { ?>
                                                                                 <option value="<?= $id["categoryID"] ?>"
@@ -820,7 +825,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 data-bs-dismiss="modal">Close
                                                         </button>
                                                         <button name="edit" type="submit"
-                                                                class="btn btn-primary">Save
+                                                                class="btn btn-primary" id="e-d">Save
                                                         </button>
                                                     </div>
                                                 </div>

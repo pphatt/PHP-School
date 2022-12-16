@@ -124,7 +124,7 @@ $product = getQuery("select * from product");
                     <div class="card-body">
                         <a>
                             <div>
-                                <img width="200px" loading="lazy" src="../img/products/iPhone/<?= $product[$i]["productImage"] ?>.jpg" alt="No Image">
+                                <img width="200px" loading="lazy" src="../img/products/iPhone/<?= $product[$i]["productImage"] ?>" alt="No Image">
                             </div>
                             <div>
                                 <div>

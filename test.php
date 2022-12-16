@@ -92,3 +92,8 @@ include_once 'function/getData.php';
 //
 //$j = 0;
 //echo $j + 1;
+
+$email = 'phat1@gmail.com';
+$password = '123';
+
+echo getQuery("select * from user where userEmail = '$email'");

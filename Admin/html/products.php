@@ -13,6 +13,7 @@ if ($_SESSION["login"] === null) {
     header("location: login.php");
 }
 
+$_SESSION['user-login'] = false;
 $product = getQuery("select * from product");
 $category = getQuery("select * from category");
 $s = getQuery("select * from productStatus");

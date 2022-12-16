@@ -7,6 +7,7 @@ if ($_SESSION["login"] === null) {
     header("location: login.php");
 }
 
+$_SESSION['user-login'] = false;
 $result = $conn->prepare("select * from admin where email=?");
 $result->bindParam(1, $_SESSION['email']);
 $result->execute();

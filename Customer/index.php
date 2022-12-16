@@ -21,7 +21,7 @@ $product = getQuery("select * from product");
     <meta name="author" content=""/>
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 
-    <title>Timups</title>
+    <title>Phone Case</title>
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
@@ -91,7 +91,6 @@ $product = getQuery("select * from product");
     <section class="slider_section" style="background-color: white; border: 4px solid black">
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-
                 <?php $kk = getQuery("select * from product limit 5"); ?>
                     <div class="carousel-item active">
                         <div class="container-fluid ">
@@ -109,7 +108,7 @@ $product = getQuery("select * from product");
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="img-box">
+                                    <div class="img-box" style="width: 600px; height: 600px">
                                         <img src="../img/products/iPhone/<?= $kk[0]['productImage'] ?>" alt="">
                                     </div>
                                 </div>
@@ -133,7 +132,7 @@ $product = getQuery("select * from product");
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="img-box">
+                                    <div class="img-box" style="width: 600px; height: 600px">
                                         <img src="../img/products/iPhone/<?= $kk[$i]['productImage'] ?>" alt="">
                                     </div>
                                 </div>

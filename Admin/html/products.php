@@ -166,6 +166,20 @@ if (isset($_POST["edit"])) {
             $stmt->bindParam(3, $p);
             $stmt->bindParam(4, $note);
             $stmt->execute();
+        } else {
+            $ll = explode(",", $t[0]);
+            if ($ll[1] !== $ll[2]) {
+                $note = $t[0];
+                $p = '2';
+
+                $sql = "insert into log values (?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $_SESSION["email"]);
+                $stmt->bindParam(2, date('Y-m-d H:i:s'));
+                $stmt->bindParam(3, $p);
+                $stmt->bindParam(4, $note);
+                $stmt->execute();
+            }
         }
 
         header("location: products.php");
@@ -345,7 +359,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                     </div>
 
                     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -353,8 +367,12 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         <button type="button"
                                                 class="btn-close"
                                                 data-bs-dismiss="modal"
-                                                aria-label="Close"
-                                        ></button>
+                                                aria-label="Close" onclick="l()"></button>
+                                        <script>
+                                            function l() {
+
+                                            }
+                                        </script>
                                     </div>
 
                                     <div class="modal-body">
@@ -362,15 +380,53 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                             <div class="col mb-3">
                                                 <label for="nameWithTitle"
                                                        class="form-label">Product's ID</label>
-                                                <input type="text"
-                                                       id="nameWithTitle"
-                                                       class="form-control"
-                                                       placeholder="Enter Product's ID"
-                                                       name="product-id"
-                                                       aria-describedby="button-addon2"
-                                                       minlength="4"
-                                                       maxlength="6"
-                                                />
+                                                <div class="input-group">
+                                                    <input type="text"
+                                                           id="nameWithTitle"
+                                                           class="form-control"
+                                                           placeholder="Enter Product's ID"
+                                                           name="product-id"
+                                                           aria-describedby="button-addon2"
+                                                           minlength="4"
+                                                           maxlength="6"
+                                                    />
+
+                                                    <button class="btn btn-outline-primary" type="button"
+                                                            id="button-addon2" onclick="b()">
+                                                        Check
+                                                    </button>
+                                                </div>
+
+                                                <script>
+                                                    function b() {
+                                                        let a = <?php echo json_encode(getQuery("select productID from product")) ?>;
+                                                        let j = document.getElementById("nameWithTitle").value
+                                                        let l = true
+
+                                                        if (j === "") {
+                                                            document.getElementById("button-addon2").className = "btn btn-outline-primary"
+                                                            document.getElementById("button-addon2").innerHTML = "Check"
+                                                            return
+                                                        }
+
+                                                        for (let i = 0; i < a.length; i++) {
+                                                            if (a[i]['productID'] === j) {
+                                                                l = false
+                                                                break
+                                                            }
+                                                        }
+
+                                                        if (l) {
+                                                            document.getElementById("button-addon2").className = "btn btn-outline-success"
+                                                            document.getElementById("button-addon2").innerHTML = "No Duplicate"
+                                                            document.getElementById("a-d").removeAttribute("disabled")
+                                                        } else {
+                                                            document.getElementById("button-addon2").className = "btn btn-outline-danger"
+                                                            document.getElementById("button-addon2").innerHTML = "Duplicate"
+                                                            document.getElementById("a-d").setAttribute("disabled", "")
+                                                        }
+                                                    }
+                                                </script>
                                             </div>
                                         </div>
 
@@ -448,7 +504,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Close
                                         </button>
-                                        <button name="product-add" type="submit" class="btn btn-primary">Save</button>
+                                        <button name="product-add" type="submit" class="btn btn-primary" id="a-d">Save</button>
                                     </div>
                                 </div>
                             </div>

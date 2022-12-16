@@ -231,7 +231,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Products</title>
 
     <meta name="description" content=""/>
 
@@ -265,7 +265,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         padding-left: 0;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="app-brand-link">
                     <span class="app-brand-text demo menu-text fw-bolder"
-                          style="text-transform: capitalize">Phone Shop</span>
+                          style="text-transform: capitalize">Phone Case Shop</span>
                 </a>
             </div>
 

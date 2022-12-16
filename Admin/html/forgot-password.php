@@ -62,10 +62,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="app-brand justify-content-center">
-                        <a href="index.php" class="app-brand-link gap-2">
-                            <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Shoes Shop</span>
+                        <a href="../../Customer/index.php" class="app-brand-link gap-2">
+                            <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Phone Case Shop</span>
                         </a>
                     </div>
+
                     <h4 class="mb-2">Forgot Password? 🔒</h4>
                     <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
                     <form id="formAuthentication" class="mb-3" action="index.php" method="POST">

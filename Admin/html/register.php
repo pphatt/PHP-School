@@ -1,3 +1,37 @@
+<?php
+declare(strict_types=1);
+define('__ROOT__', dirname(__FILE__, 3));
+$conn = require_once(__ROOT__ . "/connection/connection.php");
+include __ROOT__ . "/function/getData.php";
+session_start();
+
+if (isset($_POST['sign-up'])) {
+    $email_su = $_POST["email-sign-up"];
+    $password_su = $_POST["password-sign-up"];
+    $result = $conn->prepare("select * from admin where email=?");
+    $result->bindParam(1, $email_su);
+    $result->execute();
+    $_SESSION["invalid-password"] = false;
+
+    if ($result->rowCount() > 0) {
+        $_SESSION["invalid-email"] = true;
+        header("location: register.php");
+    } else {
+        $q = getQuery('select count(userEmail) as c from user');
+        $sql = "insert into user value (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $q[0]['c']);
+        $stmt->bindParam(2, $_POST['username-sign-up']);
+        $stmt->bindParam(3, $_POST['email-sign-up']);
+        $stmt->bindParam(4, $_POST['password-sign-up']);
+        $stmt->execute();
+
+        $_SESSION['register-success'] = true;
+        header("location: login.php");
+    }
+}
+?>
+
 <!DOCTYPE html>
 
 <html
@@ -15,7 +49,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Register Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Register</title>
 
     <meta name="description" content=""/>
 
@@ -49,30 +83,42 @@
             <div class="card">
                 <div class="card-body">
                     <div class="app-brand justify-content-center">
-                        <a href="index.php" class="app-brand-link gap-2">
-                            <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Shoes Shop</span>
+                        <a href="../../Customer/index.php" class="app-brand-link gap-2">
+                            <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Phone Case Shop</span>
                         </a>
                     </div>
+
                     <h4 class="mb-2">Adventure starts here 🚀</h4>
                     <p class="mb-4">Make your shopping experience easy and fun!</p>
 
-                    <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                    <form id="formAuthentication" class="mb-3" action="<?php echo $_SERVER['PHP_SELF'] ?>"
+                          method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
+
                             <input
                                     type="text"
                                     class="form-control"
                                     id="username"
-                                    name="username"
+                                    name="username-sign-up"
                                     placeholder="Enter your username"
                                     autofocus
                             />
+
+                            <?php if ($_SESSION["invalid-email"]) { ?>
+                                <div style="padding: 0.5rem 0.5rem; margin-top: 10px" class="alert alert-danger"
+                                     role="alert">
+                                    Email was already registered
+                                </div>
+                            <?php } ?>
                         </div>
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email"
+                            <input type="email" class="form-control" id="email" name="email-sign-up"
                                    placeholder="Enter your email"/>
                         </div>
+
                         <div class="mb-3 form-password-toggle">
                             <label class="form-label" for="password">Password</label>
                             <div class="input-group input-group-merge">
@@ -80,24 +126,16 @@
                                         type="password"
                                         id="password"
                                         class="form-control"
-                                        name="password"
+                                        name="password-sign-up"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password"
                                 />
+
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
 
-                        <!--                        <div class="mb-3">-->
-                        <!--                            <div class="form-check">-->
-                        <!--                                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms"/>-->
-                        <!--                                <label class="form-check-label" for="terms-conditions">-->
-                        <!--                                    I agree to-->
-                        <!--                                    <a href="javascript:void(0);">privacy policy & terms</a>-->
-                        <!--                                </label>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <button class="btn btn-primary d-grid w-100">Sign up</button>
+                        <button class="btn btn-primary d-grid w-100" name="sign-up">Sign up</button>
                     </form>
 
                     <p class="text-center">

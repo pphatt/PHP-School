@@ -12,6 +12,7 @@ if (isset($_POST['login'])) {
     $result->bindParam(1, $email);
     $result->bindParam(2, $password);
     $result->execute();
+    $_SESSION["register-success"] = false;
 
     if ($result->rowCount() > 0) {
         $_SESSION['login'] = true;
@@ -23,7 +24,7 @@ if (isset($_POST['login'])) {
                   where datediff(`current_time`, current_date) >= -30
                   order by d desc");
 
-        header("location: index.php?page=1&dd=". $q[0]['diff']);
+        header("location: index.php?page=1&dd=" . $q[0]['diff']);
     } else {
         $_SESSION["invalid-password"] = true;
         header('location: login.php');
@@ -48,7 +49,7 @@ if (isset($_POST['login'])) {
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Login</title>
 
     <meta name="description" content=""/>
 
@@ -82,12 +83,19 @@ if (isset($_POST['login'])) {
             <div class="card">
                 <div class="card-body">
                     <div class="app-brand justify-content-center">
-                        <a href="index.php" class="app-brand-link gap-2">
-                            <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Shoes Shop</span>
+                        <a href="../../Customer/index.php" class="app-brand-link gap-2">
+                            <span class="app-brand-text demo text-body fw-bolder" style="text-transform: capitalize">Phone Case Shop</span>
                         </a>
                     </div>
+
                     <h4 class="mb-2">Welcome to Our Shop! 👋</h4>
                     <p class="mb-4">Please sign-in to your account and start shopping</p>
+
+                    <?php if ($_SESSION["register-success"]) { ?>
+                        <div style="padding: 0.5rem 0.5rem; margin-top: 10px" class="alert alert-success" role="alert">
+                            Create account successfully
+                        </div>
+                    <?php } ?>
 
                     <form id="formAuthentication" class="mb-3" action="<?php echo $_SERVER['PHP_SELF'] ?>"
                           method="POST">
@@ -103,11 +111,13 @@ if (isset($_POST['login'])) {
                             />
 
                             <?php if ($_SESSION["invalid-password"]) { ?>
-                                <div style="padding: 0.5rem 0.5rem; margin-top: 10px" class="alert alert-danger" role="alert">
+                                <div style="padding: 0.5rem 0.5rem; margin-top: 10px" class="alert alert-danger"
+                                     role="alert">
                                     Invalid Email or Password
                                 </div>
                             <?php } ?>
                         </div>
+
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label" for="password">Password</label>
@@ -127,12 +137,14 @@ if (isset($_POST['login'])) {
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember-me"/>
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <button class="btn btn-primary d-grid w-100" type="submit" name="login">Sign in</button>
                         </div>

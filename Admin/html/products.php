@@ -195,7 +195,7 @@ if (isset($_POST['delete'])) {
     $stmt->bindParam(1, $_POST['delete-id']);
     $stmt->execute();
 
-    $note = $_POST['delete-id'];
+    $note = "Product " . $_POST['delete-id'];
     $p = '3';
 
     $sql = "insert into log values (?, ?, ?, ?)";
@@ -272,12 +272,18 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
             <div style="height: 1.625rem"></div>
 
-            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 160px;
+            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 220px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item">
                     <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Admin Profile</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="user-management.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-table"></i>
+                        <div data-i18n="Basic">User</div>
                     </a>
                 </li>
                 <li class="menu-item active">
@@ -855,7 +861,6 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                 </script>
                             </table>
                         </div>
-
                     </div>
                 </div>
                 <div class="content-backdrop fade"></div>

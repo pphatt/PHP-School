@@ -81,12 +81,18 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
             <div style="height: 1.625rem"></div>
 
-            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 160px;
+            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 220px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item active">
                     <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Admin Profile</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="user-management.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-table"></i>
+                        <div data-i18n="Basic">User</div>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -253,8 +259,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                             <?php } else { ?>
                                                 <span class="badge bg-label-danger"
                                                       style="height: fit-content;margin-top: 4px">Delete</span>
-                                                <div style="font-size: 18px">Delete
-                                                    Product: <strong><?= $log[$i]["log_note"] ?></strong></div>
+                                                <div style="font-size: 18px">Delete <strong><?= $log[$i]["log_note"] ?></strong></div>
                                             <?php } ?>
                                         </div>
                                     <?php } ?>

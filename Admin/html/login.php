@@ -9,20 +9,19 @@ if (isset($_POST['login'])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    $result = $conn->prepare("select * from admin where email=? and password=?");
+    $result = $conn->prepare("select * from user where userEmail=? and userPassword=?");
     $result->bindParam(1, $email);
     $result->bindParam(2, $password);
     $result->execute();
 
-    $r = $conn->prepare("select * from user where userEmail=? and userPassword=?");
-    $r->bindParam(1, $email);
-    $r->bindParam(2, $password);
-    $r->execute();
-
     $_SESSION["register-success"] = false;
 
     if ($result->rowCount() > 0) {
+        $user = getQuery("select * from user where userEmail='$email' and userPassword='$password'");
+
         $_SESSION['login'] = true;
+        $_SESSION['roll-login'] = $user[0]['roll'];
+        $_SESSION['user-name'] = $user[0]['userName'];
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
         $_SESSION["invalid-password"] = false;
@@ -31,17 +30,11 @@ if (isset($_POST['login'])) {
                   where datediff(`current_time`, current_date) >= -30
                   order by d desc");
 
-        header("location: index.php?page=1&dd=" . $q[0]['diff']);
-    } else if ($r->rowCount() > 0) {
-        $m = getQuery("select userName from user where userEmail = '$email' and userPassword = '$password'");
-
-        $_SESSION['user-login'] = true;
-        $_SESSION['user-name'] = $m[0]["userName"];
-        $_SESSION['user-email'] = $email;
-        $_SESSION['user-password'] = $password;
-        $_SESSION["invalid-password"] = false;
-
-        header("location: ../../Customer/index.php");
+        if ($user[0]['roll'] === 1) {
+            header("location: ../../Customer/index.php");
+        } else {
+            header("location: index.php?page=1&dd=" . $q[0]['diff']);
+        }
     } else {
         $_SESSION["invalid-password"] = true;
         header('location: login.php');

@@ -95,5 +95,12 @@ include_once 'function/getData.php';
 
 $email = 'phat1@gmail.com';
 $password = '123';
+$i = getQuery("select * from user where userEmail='phat1@gmail.com' and userPassword='123'")[0]['roll'];
+echo $i;
+echo gettype($i);
 
-echo getQuery("select * from user where userEmail = '$email'");
+if ($i === '1') {
+    echo 'true';
+} else {
+    echo 'false';
+}

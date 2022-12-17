@@ -9,7 +9,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 <?php
 session_start();
 
-if ($_SESSION["login"] === null) {
+if ($_SESSION["login"] === null || $_SESSION["roll-login"] === 1) {
     header("location: login.php");
 }
 

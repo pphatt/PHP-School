@@ -3,11 +3,10 @@ include '../../function/getData.php';
 $conn = require_once("../../connection/connection.php");
 session_start();
 
-if ($_SESSION["login"] === null) {
+if ($_SESSION["login"] === null || $_SESSION["roll-login"] === 1) {
     header("location: login.php");
 }
 
-$_SESSION['user-login'] = false;
 $result = $conn->prepare("select * from admin where email=?");
 $result->bindParam(1, $_SESSION['email']);
 $result->execute();

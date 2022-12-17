@@ -7,8 +7,8 @@ if ($_SESSION["login"] === null || $_SESSION["roll-login"] === 1) {
     header("location: login.php");
 }
 
-$result = $conn->prepare("select * from admin where email=?");
-$result->bindParam(1, $_SESSION['email']);
+$result = $conn->prepare("select * from user where userID=? and roll='2'");
+$result->bindParam(1, $_SESSION['user-id']);
 $result->execute();
 $admin_profile = $result->fetchAll();
 
@@ -80,7 +80,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
             <div style="height: 1.625rem"></div>
 
-            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 220px;
+            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 270px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item active">
                     <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
@@ -102,6 +102,12 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                 </li>
                 <li class="menu-item">
                     <a href="../../Customer/index.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                        <div data-i18n="Basic">View Home Page</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="logout.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                         <div data-i18n="Basic">Logout</div>
                     </a>
@@ -133,7 +139,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <span class="fw-semibold d-block">Admin111</span>
+                                                <span class="fw-semibold d-block"><?= $admin_profile[0]['userName'] ?></span>
                                                 <small class="text-muted">Admin</small>
                                             </div>
                                         </div>
@@ -173,7 +179,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                             <div class="card-body" style="display: flex; justify-content: center; align-items: center">
                                 <span style="font-size: 20px">Name:
                                     <span style="font-weight: bold; font-size: 25px;text-transform: uppercase">
-                                        <?= $admin_profile[0]['adminName'] ?>
+                                        <?= $admin_profile[0]['userName'] ?>
                                     </span>
                                 </span>
                             </div>
@@ -189,7 +195,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                             $result = $conn->prepare($y);
                             $result->bindParam(1, $_GET['dd']);
-                            $result->bindParam(2, $_SESSION['email']);
+                            $result->bindParam(2, $_SESSION['user-id']);
                             $result->execute();
                             $log = $result->fetchAll();
 

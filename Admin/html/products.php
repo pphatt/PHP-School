@@ -40,7 +40,7 @@ if (isset($_POST['product-add'])) {
         $p = "1";
         $sql = "insert into log values (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $_SESSION["email"]);
+        $stmt->bindParam(1, $_SESSION['user-id']);
         $stmt->bindParam(2, date('Y-m-d H:i:s'));
         $stmt->bindParam(3, $p);
         $stmt->bindParam(4, $note);
@@ -162,7 +162,7 @@ if (isset($_POST["edit"])) {
 
             $sql = "insert into log values (?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1, $_SESSION["email"]);
+            $stmt->bindParam(1, $_SESSION['user-id']);
             $stmt->bindParam(2, date('Y-m-d H:i:s'));
             $stmt->bindParam(3, $p);
             $stmt->bindParam(4, $note);
@@ -172,10 +172,11 @@ if (isset($_POST["edit"])) {
             if ($ll[1] !== $ll[2]) {
                 $note = $t[0];
                 $p = '2';
+                $ip = $_SESSION['user-id'];
 
                 $sql = "insert into log values (?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1, $_SESSION["email"]);
+                $stmt->bindParam(1, $ip);
                 $stmt->bindParam(2, date('Y-m-d H:i:s'));
                 $stmt->bindParam(3, $p);
                 $stmt->bindParam(4, $note);
@@ -200,7 +201,7 @@ if (isset($_POST['delete'])) {
 
     $sql = "insert into log values (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1, $_SESSION["email"]);
+    $stmt->bindParam(1, $_SESSION['user-id']);
     $stmt->bindParam(2, date('Y-m-d H:i:s'));
     $stmt->bindParam(3, $p);
     $stmt->bindParam(4, $note);
@@ -272,7 +273,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
             <div style="height: 1.625rem"></div>
 
-            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 220px;
+            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 270px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item">
                     <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
@@ -294,6 +295,12 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                 </li>
                 <li class="menu-item">
                     <a href="../../Customer/index.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                        <div data-i18n="Basic">View Home Page</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="logout.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                         <div data-i18n="Basic">Logout</div>
                     </a>
@@ -692,7 +699,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                     />
 
                                                                     <div class="btn btn-outline-primary" type="button"
-                                                                         id="check-edit">
+                                                                         id="check-edit-<?= $i ?>">
                                                                         Check
                                                                     </div>
                                                                 </div>
@@ -854,7 +861,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 data-bs-dismiss="modal">Close
                                                         </button>
                                                         <button name="edit" type="submit"
-                                                                class="btn btn-primary" id="e-d" disabled>Save
+                                                                class="btn btn-primary" id="e-d-<?= $i ?>" disabled>Save
                                                         </button>
                                                     </div>
                                                 </div>
@@ -883,8 +890,8 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         let l = true
 
                                         if (j === "") {
-                                            document.getElementById("check-edit").className = "btn btn-outline-primary"
-                                            document.getElementById("check-edit").innerHTML = "Check"
+                                            document.getElementById(`check-edit-${id}`).className = "btn btn-outline-primary"
+                                            document.getElementById(`check-edit-${id}`).innerHTML = "Check"
                                             return
                                         }
 
@@ -896,13 +903,13 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                         }
 
                                         if (l) {
-                                            document.getElementById("check-edit").className = "btn btn-outline-success"
-                                            document.getElementById("check-edit").innerHTML = "No Duplicate"
-                                            document.getElementById("e-d").removeAttribute("disabled")
+                                            document.getElementById(`check-edit-${id}`).className = "btn btn-outline-success"
+                                            document.getElementById(`check-edit-${id}`).innerHTML = "No Duplicate"
+                                            document.getElementById(`e-d-${id}`).removeAttribute("disabled")
                                         } else {
-                                            document.getElementById("check-edit").className = "btn btn-outline-danger"
-                                            document.getElementById("check-edit").innerHTML = "Duplicate"
-                                            document.getElementById("e-d").setAttribute("disabled", "")
+                                            document.getElementById(`check-edit-${id}`).className = "btn btn-outline-danger"
+                                            document.getElementById(`check-edit-${id}`).innerHTML = "Duplicate"
+                                            document.getElementById(`e-d-${id}`).setAttribute("disabled", "")
                                         }
                                     }
 

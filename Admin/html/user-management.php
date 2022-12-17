@@ -14,25 +14,36 @@ if ($_SESSION["login"] === null || $_SESSION["roll-login"] === 1) {
 }
 
 $_SESSION['user-login'] = false;
-$user = getQuery("select * from user");
+$user = getQuery("select * from user order by roll desc");
 
 if (isset($_POST["edit"])) {
     try {
         $sql = "update user
-                set userName=?
+                set userName=?, roll=?
                 where userID = ?";
 
         $stmt = $conn->prepare($sql);
-
+        echo "1";
         $stmt->bindParam(1, $_POST['user-name']);
-        $stmt->bindParam(2, $_POST['user-id']);
+        echo "1";
+        $stmt->bindParam(2, $_POST['user-roll']);
+        echo "1";
+        $stmt->bindParam(3, $_POST['user-id']);
+        echo "1";
         $stmt->execute();
+        echo "1";
 
         $c = true;
+        $note = "ID," . $_POST['user-id'] . $_POST['user-id'];
 
         if ($_POST['user-name'] !== $_POST['previous-name']) {
             $c = false;
-            $note = "ID," . $_POST['user-id'] . $_POST['user-id'] .  " Name," . $_POST['previous-name'] . "," . $_POST['user-name'];
+            $note = "Name," . $_POST['previous-name'] . "," . $_POST['user-name'];
+        }
+
+        if ($_POST["previous-roll"] !== $_POST['user-roll']) {
+            $c = false;
+            $note = "Roll," . $_POST['previous-roll'] . "," . $_POST['user-roll'];
         }
 
         if (!$c) {
@@ -40,7 +51,7 @@ if (isset($_POST["edit"])) {
 
             $sql = "insert into log values (?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1, $_SESSION["email"]);
+            $stmt->bindParam(1, $_SESSION['user-id']);
             $stmt->bindParam(2, date('Y-m-d H:i:s'));
             $stmt->bindParam(3, $p);
             $stmt->bindParam(4, $note);
@@ -136,7 +147,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
             <div style="height: 1.625rem"></div>
 
-            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 220px;
+            <ul class="menu-inner py-1" style="background-color: #fefeff; border-radius: 0.375rem; max-height: 270px;
                                                justify-content: center;box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);">
                 <li class="menu-item">
                     <a href="index.php?page=1&dd=<?= $q[0]['diff'] ?>" class="menu-link">
@@ -158,6 +169,12 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                 </li>
                 <li class="menu-item">
                     <a href="../../Customer/index.php" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                        <div data-i18n="Basic">View Home Page</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="logout.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                         <div data-i18n="Basic">Logout</div>
                     </a>
@@ -230,6 +247,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                     <th>User's Name</th>
                                     <th>User's Email</th>
                                     <th>User's Password</th>
+                                    <th>User's Roll</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -251,6 +269,10 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                                         <td>
                                             <?= $user[$i]['userPassword'] ?>
+                                        </td>
+
+                                        <td>
+                                            <?= $user[$i]['roll'] ?>
                                         </td>
 
                                         <td>
@@ -339,7 +361,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                        placeholder="Enter Product's ID"
                                                                        name="user-id"
                                                                        onchange="autofill(this)"
-                                                                       value="<?= $user[$i]["productID"] ?>"
+                                                                       value="<?= $user[$i]["userID"] ?>"
                                                                        readonly
                                                                 />
                                                             </div>
@@ -397,6 +419,29 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                        onchange="autofill(this)"
                                                                        value="<?= $user[$i]["userPassword"] ?>"
                                                                        readonly
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row g-2">
+                                                            <div class="col mb-0">
+                                                                <label for="nameForUserRoll"
+                                                                       class="form-label">User's Roll</label>
+
+                                                                <input type="hidden"
+                                                                       id="nameForUserRoll"
+                                                                       class="form-control"
+                                                                       name="previous-roll"
+                                                                       value="<?= $user[$i]["roll"] ?>"
+                                                                />
+
+                                                                <input type="number"
+                                                                       id="nameForUserRoll"
+                                                                       class="form-control"
+                                                                       name="user-roll"
+                                                                       value="<?= $user[$i]["roll"] ?>"
+                                                                       min="1"
+                                                                       max="2"
                                                                 />
                                                             </div>
                                                         </div>

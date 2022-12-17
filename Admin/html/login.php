@@ -21,6 +21,7 @@ if (isset($_POST['login'])) {
 
         $_SESSION['login'] = true;
         $_SESSION['roll-login'] = $user[0]['roll'];
+        $_SESSION['user-id'] = $user[0]['userID'];
         $_SESSION['user-name'] = $user[0]['userName'];
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;

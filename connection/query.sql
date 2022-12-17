@@ -24,16 +24,26 @@ create table productStatus
     statusName varchar(20) not null
 );
 
-create table admin
+create table user
 (
-    adminName varchar(100) not null,
-    email     varchar(10)  not null primary key,
-    password  varchar(10)  not null
+    userID       int auto_increment primary key,
+    userName     varchar(50)  not null,
+    userEmail    varchar(100) not null,
+    userPassword varchar(100) not null,
+    roll         int          not null
+);
+
+/* Do asm without roll but demo with roll*/
+
+create table roll
+(
+    rollID   int primary key,
+    rollName varchar(10)
 );
 
 create table log
 (
-    adminEmail     varchar(100) not null,
+    adminEmail     int not null,
     `current_time` datetime     not null,
     logTypes       int          not null,
     log_note       varchar(500) not null
@@ -52,10 +62,13 @@ alter table product
     add constraint FK_ProductStatus foreign key (productStatus) references productStatus (statusID);
 
 alter table log
-    add constraint FK_adminEmail foreign key (adminEmail) references admin (email);
+    add constraint FK_userEmail foreign key (adminEmail) references user (userID);
 
 alter table log
     add constraint FK_logTypes foreign key (logTypes) references logTypes (logTypeID);
+
+alter table user
+    add constraint FK_RollID foreign key (roll) references roll (rollID);
 
 insert into category (categoryName)
 values ('Samsung'),
@@ -66,9 +79,14 @@ insert into productStatus(statusName)
 values ('On Stock'),
        ('Out of Stock');
 
-insert into logTypes(logTypeID, logTypeName) values ('1', 'Add'), ('2', 'Edit'), ('3', 'Delete');
+insert into logTypes(logTypeID, logTypeName)
+values ('1', 'Add'),
+       ('2', 'Edit'),
+       ('3', 'Delete');
 
-insert into admin(adminName, email, password) value ('Phat', 'admin111', '123');
+insert into roll (rollID, rollName) values (1, 'User'), (2, 'Admin');
+
+insert into user (userName, userEmail, userPassword, roll) value ('Phat', 'admin111', '111', 2);
 
 insert into product
 values ('P001', 'iPhone 14 Pro Leather Case with MagSafe - Ink', 59.99,
@@ -114,3 +132,7 @@ select distinct cast(`current_time` as date) as d, datediff(`current_time`, curr
 from log
 where datediff(`current_time`, current_date) >= -30
 order by d;
+
+select * from user where userEmail='phat1@gmail.com' and userPassword='123';
+
+insert into user value (2, 'p', 'p@gmail.com', '123', '1')

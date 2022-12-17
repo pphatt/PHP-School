@@ -23,15 +23,10 @@ if (isset($_POST["edit"])) {
                 where userID = ?";
 
         $stmt = $conn->prepare($sql);
-        echo "1";
         $stmt->bindParam(1, $_POST['user-name']);
-        echo "1";
         $stmt->bindParam(2, $_POST['user-roll']);
-        echo "1";
         $stmt->bindParam(3, $_POST['user-id']);
-        echo "1";
         $stmt->execute();
-        echo "1";
 
         $c = true;
         $note = "ID," . $_POST['user-id'] . $_POST['user-id'];
@@ -75,7 +70,7 @@ if (isset($_POST['delete'])) {
 
     $sql = "insert into log values (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1, $_SESSION["email"]);
+    $stmt->bindParam(1, $_SESSION["user-id"]);
     $stmt->bindParam(2, date('Y-m-d H:i:s'));
     $stmt->bindParam(3, $p);
     $stmt->bindParam(4, $note);

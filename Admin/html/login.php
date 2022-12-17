@@ -5,6 +5,8 @@ $conn = require_once(__ROOT__ . "/connection/connection.php");
 include __ROOT__ . "/function/getData.php";
 session_start();
 
+$_SESSION["invalid-email"] = false;
+
 if (isset($_POST['login'])) {
     $email = $_POST["email"];
     $password = $_POST["password"];

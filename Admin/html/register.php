@@ -5,11 +5,14 @@ $conn = require_once(__ROOT__ . "/connection/connection.php");
 include __ROOT__ . "/function/getData.php";
 session_start();
 
+$_SESSION["register-success"] = false;
+
 if (isset($_POST['sign-up'])) {
     $email = $_POST["email-sign-up"];
     $result = $conn->prepare("select * from user where userEmail=?");
     $result->bindParam(1, $_POST["email-sign-up"]);
     $result->execute();
+
     $_SESSION["invalid-password"] = false;
 
     if ($result->rowCount() > 0) {

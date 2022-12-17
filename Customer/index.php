@@ -5,6 +5,10 @@ include __ROOT__ . "/function/getData.php";
 session_start();
 
 $product = getQuery("select * from product");
+
+$q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`current_time`, current_date) as diff from log
+                  where datediff(`current_time`, current_date) >= -30
+                  order by d desc")
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +84,7 @@ $product = getQuery("select * from product");
 
                         <?php if ($_SESSION['login'] && $_SESSION['roll-login'] === 2) { ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="../Admin/html/index.php"> Admin Panel </a>
+                                <a class="nav-link" href="../Admin/html/index.php?page=1&dd=<?= $q[0]['diff'] ?>"> Admin Panel </a>
                             </li>
                         <?php } else if ($_SESSION['login'] && $_SESSION['roll-login'] === 1) { ?>
                             <li class="nav-item">

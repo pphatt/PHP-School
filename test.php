@@ -53,8 +53,6 @@
 //require_once 'test2.php';
 //echo t()[0];
 
-$conn = require_once("connection/connection.php");
-
 //$result = $conn->prepare("select * from admin where email='admin111'");
 ////$result->bindParam(1, 'admin111');
 //$result->execute();
@@ -92,15 +90,33 @@ include_once 'function/getData.php';
 //
 //$j = 0;
 //echo $j + 1;
+echo "1";
 
-$email = 'phat1@gmail.com';
-$password = '123';
-$i = getQuery("select * from user where userEmail='phat1@gmail.com' and userPassword='123'")[0]['roll'];
-echo $i;
-echo gettype($i);
+$conn = require_once("connection/connection.php");
+$name='adsasd';
+$email='1313123';
+$password='sadasdas';
+$id = 1;
+$i = 4;
 
-if ($i === '1') {
-    echo 'true';
-} else {
-    echo 'false';
+try {
+    echo "2";
+    $sql1 = "insert into user value (?, ?, ?, ?, ?)";
+    echo "3";
+    $stmt1 = $conn->prepare($sql1);
+    echo "4";
+    $stmt1->bindParam(1, $i);
+    echo "5";
+    $stmt1->bindParam(2, $name);
+    echo "6";
+    $stmt1->bindParam(3, $email);
+    echo "7";
+    $stmt1->bindParam(4, $password);
+    echo "8";
+    $stmt1->bindParam(5, $id);
+    echo "9";
+    $stmt1->execute();
+    echo "10";
+} catch (PDOException $ex) {
+    echo "Error: " . $ex->getMessage();
 }

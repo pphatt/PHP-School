@@ -681,28 +681,21 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                             <div class="col mb-3">
                                                                 <label for="nameForProductIDEdit"
                                                                        class="form-label">Product's ID</label>
-                                                                <div class="input-group">
-                                                                    <input type="hidden"
-                                                                           value="<?= $product[$i]["productID"] ?>"
-                                                                           name="previous-id"/>
+                                                                <input type="hidden"
+                                                                       value="<?= $product[$i]["productID"] ?>"
+                                                                       name="previous-id"/>
 
-                                                                    <input type="text"
-                                                                           id="nameForProductIDEdit-<?= $i ?>"
-                                                                           class="form-control"
-                                                                           placeholder="Enter Product's ID"
-                                                                           name="product-id"
-                                                                           data-id="<?= $product[$i]["productID"] ?>"
-                                                                           onchange="ipl(this, <?= $i ?>)"
-                                                                           value="<?= $product[$i]["productID"] ?>"
-                                                                           minlength="4"
-                                                                           maxlength="6"
-                                                                    />
-
-                                                                    <div class="btn btn-outline-primary" type="button"
-                                                                         id="check-edit-<?= $i ?>">
-                                                                        Check
-                                                                    </div>
-                                                                </div>
+                                                                <input type="text"
+                                                                       id="nameForProductIDEdit-<?= $i ?>"
+                                                                       class="form-control"
+                                                                       placeholder="Enter Product's ID"
+                                                                       name="product-id"
+                                                                       data-id="<?= $product[$i]["productID"] ?>"
+                                                                       onchange="ipl(this, <?= $i ?>)"
+                                                                       value="<?= $product[$i]["productID"] ?>"
+                                                                       minlength="4"
+                                                                       maxlength="6"
+                                                                />
                                                             </div>
                                                         </div>
 
@@ -861,7 +854,7 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
                                                                 data-bs-dismiss="modal">Close
                                                         </button>
                                                         <button name="edit" type="submit"
-                                                                class="btn btn-primary" id="e-d-<?= $i ?>" disabled>Save
+                                                                class="btn btn-primary" id="e-d-<?= $i ?>">Save
                                                         </button>
                                                     </div>
                                                 </div>
@@ -879,39 +872,6 @@ $q = getQuery("select distinct cast(`current_time` as date) as d, datediff(`curr
 
                                 <script>
                                     let a = ["data-id", "data-name", "data-price"]
-
-                                    function ipl(target, id) {
-                                        if (target.value === "" && target.hasAttribute("data-id")) {
-                                            target.value = target.getAttribute("data-id")
-                                        }
-
-                                        let g = <?php echo json_encode(getQuery("select productID from product")) ?>;
-                                        let j = document.getElementById(`nameForProductIDEdit-${id}`).value
-                                        let l = true
-
-                                        if (j === "") {
-                                            document.getElementById(`check-edit-${id}`).className = "btn btn-outline-primary"
-                                            document.getElementById(`check-edit-${id}`).innerHTML = "Check"
-                                            return
-                                        }
-
-                                        for (let i = 0; i < g.length; i++) {
-                                            if (g[i]['productID'] === j) {
-                                                l = false
-                                                break
-                                            }
-                                        }
-
-                                        if (l) {
-                                            document.getElementById(`check-edit-${id}`).className = "btn btn-outline-success"
-                                            document.getElementById(`check-edit-${id}`).innerHTML = "No Duplicate"
-                                            document.getElementById(`e-d-${id}`).removeAttribute("disabled")
-                                        } else {
-                                            document.getElementById(`check-edit-${id}`).className = "btn btn-outline-danger"
-                                            document.getElementById(`check-edit-${id}`).innerHTML = "Duplicate"
-                                            document.getElementById(`e-d-${id}`).setAttribute("disabled", "")
-                                        }
-                                    }
 
                                     const autofill = (target) => {
                                         for (let i = 0; i < a.length; i++) {

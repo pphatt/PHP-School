@@ -6,10 +6,9 @@ include __ROOT__ . "/function/getData.php";
 session_start();
 
 if (isset($_POST['sign-up'])) {
-    $email_su = $_POST["email-sign-up"];
-    $password_su = $_POST["password-sign-up"];
-    $result = $conn->prepare("select * from admin where email=?");
-    $result->bindParam(1, $email_su);
+    $email = $_POST["email-sign-up"];
+    $result = $conn->prepare("select * from user where userEmail=?");
+    $result->bindParam(1, $_POST["email-sign-up"]);
     $result->execute();
     $_SESSION["invalid-password"] = false;
 
@@ -18,12 +17,18 @@ if (isset($_POST['sign-up'])) {
         header("location: register.php");
     } else {
         $q = getQuery('select count(userEmail) as c from user');
-        $sql = "insert into user value (?, ?, ?, ?)";
+        $username = $_POST['username-sign-up'];
+        $password = $_POST["password-sign-up"];
+        $id = 1;
+        $i = intval($q[0]['c']) + 1;
+
+        $sql = "insert into user values (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $q[0]['c']);
-        $stmt->bindParam(2, $_POST['username-sign-up']);
-        $stmt->bindParam(3, $_POST['email-sign-up']);
-        $stmt->bindParam(4, $_POST['password-sign-up']);
+        $stmt->bindParam(1, $i);
+        $stmt->bindParam(2, $username);
+        $stmt->bindParam(3, $email);
+        $stmt->bindParam(4, $password);
+        $stmt->bindParam(5, $id);
         $stmt->execute();
 
         $_SESSION['register-success'] = true;
@@ -135,7 +140,7 @@ if (isset($_POST['sign-up'])) {
                             </div>
                         </div>
 
-                        <button class="btn btn-primary d-grid w-100" name="sign-up">Sign up</button>
+                        <button type="submit" class="btn btn-primary d-grid w-100" name="sign-up">Sign up</button>
                     </form>
 
                     <p class="text-center">

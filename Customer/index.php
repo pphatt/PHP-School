@@ -78,9 +78,19 @@ $product = getQuery("select * from product");
                             <a class="nav-link" href="products.php"> Product </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="../Admin/html/login.php"> Login </a>
-                        </li>
+                        <?php if ($_SESSION['login'] && $_SESSION['roll-login'] === 2) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../Admin/html/index.php"> Admin Panel </a>
+                            </li>
+                        <?php } else if ($_SESSION['login'] && $_SESSION['roll-login'] === 1) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../Admin/html/logout.php"> Logout </a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../Admin/html/login.php"> Login </a>
+                            </li>
+                        <?php } ?>
                     </ul>
 
                     <div style="width: 160px"></div>
@@ -111,29 +121,29 @@ $product = getQuery("select * from product");
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <?php $kk = getQuery("select * from product limit 5"); ?>
-                    <div class="carousel-item active">
-                        <div class="container-fluid ">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="detail-box">
-                                        <h1 style="color: black">
-                                            <?= $kk[0]['productName'] ?>
-                                        </h1>
-                                        <div class="btn-box">
-                                            <a href="" class="btn1" style="background-color: black">
-                                                Contact Us
-                                            </a>
-                                        </div>
+                <div class="carousel-item active">
+                    <div class="container-fluid ">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="detail-box">
+                                    <h1 style="color: black">
+                                        <?= $kk[0]['productName'] ?>
+                                    </h1>
+                                    <div class="btn-box">
+                                        <a href="" class="btn1" style="background-color: black">
+                                            Contact Us
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="img-box" style="width: 600px; height: 600px">
-                                        <img src="../img/products/iPhone/<?= $kk[0]['productImage'] ?>" alt="">
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="img-box" style="width: 600px; height: 600px">
+                                    <img src="../img/products/iPhone/<?= $kk[0]['productImage'] ?>" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 <?php for ($i = 1; $i < count($kk); $i++) { ?>
                     <div class="carousel-item">
                         <div class="container-fluid ">
